@@ -260,7 +260,7 @@ public class FormRegistrar extends javax.swing.JFrame {
     login.setVisible(true);
     
     // Cerrar o esconder la ventana actual de registro
-    this.dispose();  // O puedes usar this.setVisible(false) si no quieres cerrarla completamente
+    this.dispose();  
     }//GEN-LAST:event_jBCancelarActionPerformed
 
 
