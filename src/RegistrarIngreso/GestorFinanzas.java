@@ -73,4 +73,28 @@ public class GestorFinanzas {
 
         return ingresos;  // Devolver la lista de ingresos
     }
+
+    public void actualizarIngreso(int id, double nuevoMonto, String nuevaCategoria, LocalDate nuevaFecha) {
+        String sql = "UPDATE ingresos SET monto = ?, categoria = ?, fecha = ? WHERE id = ?";
+
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setDouble(1, nuevoMonto);
+            pstmt.setString(2, nuevaCategoria);
+            pstmt.setDate(3, java.sql.Date.valueOf(nuevaFecha));
+            pstmt.setInt(4, id);
+
+            int filasActualizadas = pstmt.executeUpdate();
+            if (filasActualizadas > 0) {
+                System.out.println("Ingreso actualizado correctamente.");
+            } else {
+                System.out.println("No se encontró el ingreso con el ID proporcionado.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar el ingreso.");
+            e.printStackTrace();
+        }
+    }
+
 }

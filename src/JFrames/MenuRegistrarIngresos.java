@@ -1,6 +1,8 @@
 package JFrames;
 
 import RegistrarIngreso.GestorFinanzas;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -8,12 +10,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author familia4
  */
-public class Menu extends javax.swing.JFrame {
+public class MenuRegistrarIngresos extends javax.swing.JFrame {
 
     /**
      * Creates new form Menu
      */
-    public Menu() {
+    public MenuRegistrarIngresos() {
         initComponents();
     }
 
@@ -30,10 +32,12 @@ public class Menu extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaIngresos = new javax.swing.JTable();
-        editarIngreso = new javax.swing.JButton();
+        Agregar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        Editar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Ingresos = new javax.swing.JButton();
+        Retroceder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,16 +58,24 @@ public class Menu extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaIngresos);
 
-        editarIngreso.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
-        editarIngreso.setText("Editar Ingreso");
-        editarIngreso.addActionListener(new java.awt.event.ActionListener() {
+        Agregar.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
+        Agregar.setText("Agregar");
+        Agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarIngresoActionPerformed(evt);
+                AgregarActionPerformed(evt);
             }
         });
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ingreso4.png"))); // NOI18N
+
+        Editar.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
+        Editar.setText("Editar");
+        Editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -75,24 +87,28 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(Editar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(editarIngreso)))
+                        .addComponent(Agregar)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addComponent(editarIngreso)
-                        .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Editar)
+                            .addComponent(Agregar))
+                        .addGap(29, 29, 29)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
@@ -103,6 +119,14 @@ public class Menu extends javax.swing.JFrame {
         Ingresos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IngresosActionPerformed(evt);
+            }
+        });
+
+        Retroceder.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+        Retroceder.setText("Retroceder");
+        Retroceder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RetrocederActionPerformed(evt);
             }
         });
 
@@ -117,7 +141,10 @@ public class Menu extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(97, 97, 97)
-                        .addComponent(Ingresos)))
+                        .addComponent(Ingresos))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(Retroceder)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -129,6 +156,8 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(65, 65, 65)
                 .addComponent(Ingresos)
+                .addGap(43, 43, 43)
+                .addComponent(Retroceder)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -140,7 +169,9 @@ public class Menu extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -166,14 +197,74 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_IngresosActionPerformed
 
-    private void editarIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarIngresoActionPerformed
+    private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
 
         // Crear una instancia del formulario secundario
         RegistrarIngreso EditarIngresos = new RegistrarIngreso();
 
         // Hacer visible el formulario secundario
         EditarIngresos.setVisible(true);
-    }//GEN-LAST:event_editarIngresoActionPerformed
+    }//GEN-LAST:event_AgregarActionPerformed
+
+    private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
+
+        // Obtener la fila seleccionada
+    int filaSeleccionada = tablaIngresos.getSelectedRow();
+
+    if (filaSeleccionada != -1) {
+        // Obtener el modelo de la tabla
+        DefaultTableModel model = (DefaultTableModel) tablaIngresos.getModel();
+
+        // Obtener los valores actuales
+        Object idObj = model.getValueAt(filaSeleccionada, 0); // id
+        Object montoObj = model.getValueAt(filaSeleccionada, 1); // monto
+        Object categoriaObj = model.getValueAt(filaSeleccionada, 2); // categoría
+        Object fechaObj = model.getValueAt(filaSeleccionada, 3); // fecha
+
+        // Pedir nuevos valores al usuario
+        String nuevoMontoStr = javax.swing.JOptionPane.showInputDialog(this, "Nuevo monto:", montoObj);
+        String nuevaCategoria = javax.swing.JOptionPane.showInputDialog(this, "Nueva categoría:", categoriaObj);
+        String nuevaFechaStr = javax.swing.JOptionPane.showInputDialog(this, "Nueva fecha (YYYY-MM-DD):", fechaObj.toString());
+
+        // Validar que los valores no sean nulos
+        if (nuevoMontoStr != null && nuevaCategoria != null && nuevaFechaStr != null) {
+            try {
+                // Convertir los valores a los tipos correctos
+                double nuevoMonto = Double.parseDouble(nuevoMontoStr);
+                LocalDate nuevaFecha = LocalDate.parse(nuevaFechaStr);  // Convertir la fecha
+
+                // Actualizar los valores en la tabla localmente
+                model.setValueAt(nuevoMonto, filaSeleccionada, 1); // Actualizar monto en la tabla
+                model.setValueAt(nuevaCategoria, filaSeleccionada, 2); // Actualizar categoría en la tabla
+
+                // Convertir LocalDate a java.sql.Date
+                java.sql.Date sqlDate = java.sql.Date.valueOf(nuevaFecha);
+                model.setValueAt(sqlDate, filaSeleccionada, 3); // Actualizar fecha en la tabla
+
+                // Actualizar la base de datos
+                GestorFinanzas gestor = new GestorFinanzas();
+                gestor.actualizarIngreso((int) idObj, nuevoMonto, nuevaCategoria, nuevaFecha);
+
+                javax.swing.JOptionPane.showMessageDialog(this, "Ingreso actualizado correctamente.");
+
+            } catch (NumberFormatException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Formato de monto incorrecto.");
+            } catch (DateTimeParseException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Usa YYYY-MM-DD.");
+            }
+        }
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(this, "Selecciona una fila para editar.");
+    }
+    }//GEN-LAST:event_EditarActionPerformed
+
+    private void RetrocederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RetrocederActionPerformed
+        // Crear una instancia del formulario secundario
+        Menu IrMenu = new Menu();  //Se cambia el Menu
+
+        // Hacer visible el formulario secundario
+        IrMenu.setVisible(true);
+    }//GEN-LAST:event_RetrocederActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,27 +283,30 @@ public class Menu extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuRegistrarIngresos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuRegistrarIngresos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuRegistrarIngresos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuRegistrarIngresos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu().setVisible(true);
+                new MenuRegistrarIngresos().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Agregar;
+    private javax.swing.JButton Editar;
     private javax.swing.JButton Ingresos;
-    private javax.swing.JButton editarIngreso;
+    private javax.swing.JButton Retroceder;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -194,7 +194,7 @@ public class RegistrarIngreso extends javax.swing.JFrame {
 
     private void VolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverMenuActionPerformed
         // Crear una instancia del formulario secundario
-        Menu VolverMenu = new Menu();
+        MenuRegistrarIngresos VolverMenu = new MenuRegistrarIngresos();
 
         // Hacer visible el formulario secundario
         VolverMenu.setVisible(true);
