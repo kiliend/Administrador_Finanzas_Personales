@@ -3,7 +3,7 @@
  */
 
 package com.mycompany.administrador_finanzas_personales;
-
+import JFrames.FormLogin;
 /**
  *
  * @author Luan Condori
@@ -11,6 +11,13 @@ package com.mycompany.administrador_finanzas_personales;
 public class Administrador_Finanzas_Personales {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+         // Crea una instancia de la ventana de login
+        FormLogin login = new FormLogin();
+        
+        // Configurar que se vea centrada en la pantalla
+        login.setLocationRelativeTo(null);
+        
+        // Hacer visible la ventana de login
+        login.setVisible(true);
     }
 }
