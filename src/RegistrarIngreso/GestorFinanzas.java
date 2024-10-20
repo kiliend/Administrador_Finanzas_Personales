@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package RegistrarIngreso;
 
 import java.sql.Connection;
@@ -93,6 +89,20 @@ public class GestorFinanzas {
 
         } catch (SQLException e) {
             System.out.println("Error al actualizar el ingreso.");
+            e.printStackTrace();
+        }
+    }
+
+    public void eliminarIngreso(int id) {
+        String sql = "DELETE FROM ingresos WHERE id = ?";
+
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            pstmt.executeUpdate();
+            System.out.println("Ingreso eliminado de la base de datos.");
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar el ingreso.");
             e.printStackTrace();
         }
     }

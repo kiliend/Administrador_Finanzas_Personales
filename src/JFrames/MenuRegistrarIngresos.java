@@ -35,6 +35,7 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
         Agregar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         Editar = new javax.swing.JButton();
+        Eliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Ingresos = new javax.swing.JButton();
         Retroceder = new javax.swing.JButton();
@@ -77,6 +78,14 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
             }
         });
 
+        Eliminar.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+        Eliminar.setText("Eliminar");
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -89,6 +98,8 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(Editar)
+                        .addGap(82, 82, 82)
+                        .addComponent(Eliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Agregar)))
                 .addContainerGap())
@@ -104,7 +115,9 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(97, 97, 97)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Editar)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(Editar)
+                                .addComponent(Eliminar))
                             .addComponent(Agregar))
                         .addGap(29, 29, 29)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,6 +279,41 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
         IrMenu.setVisible(true);
     }//GEN-LAST:event_RetrocederActionPerformed
 
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+
+        // Obtener la fila seleccionada
+    int filaSeleccionada = tablaIngresos.getSelectedRow();
+
+    if (filaSeleccionada != -1) {
+        // Obtener el modelo de la tabla
+        DefaultTableModel model = (DefaultTableModel) tablaIngresos.getModel();
+
+        // Obtener el id del registro a eliminar (la primera columna)
+        Object idObj = model.getValueAt(filaSeleccionada, 0);
+
+        // Confirmar antes de eliminar
+        int confirmacion = javax.swing.JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este ingreso?", "Confirmar", javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == javax.swing.JOptionPane.YES_OPTION) {
+            // Eliminar el registro de la base de datos
+            try {
+                GestorFinanzas gestor = new GestorFinanzas();
+                gestor.eliminarIngreso((int) idObj); // Pasar el id al método eliminarIngreso
+
+                // Eliminar la fila de la tabla visual
+                model.removeRow(filaSeleccionada);
+
+                javax.swing.JOptionPane.showMessageDialog(this, "Ingreso eliminado correctamente.");
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al eliminar el ingreso.");
+                e.printStackTrace();
+            }
+        }
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.");
+    }
+    }//GEN-LAST:event_EliminarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -305,6 +353,7 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Agregar;
     private javax.swing.JButton Editar;
+    private javax.swing.JButton Eliminar;
     private javax.swing.JButton Ingresos;
     private javax.swing.JButton Retroceder;
     private javax.swing.JLabel jLabel1;
