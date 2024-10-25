@@ -16,6 +16,7 @@ JFrames\Menu$2.class
 JFrames\RegistrarGastos$1.class
 JFrames\RegistrarIngreso$1.class
 JFrames\RegistrarIngreso.class
+EditarGasto\ConexionDB.class
 JFrames\FormRegistrar$1.class
 JFrames\FormRegistrar.class
 JFrames\MenuGastos$1.class
@@ -23,6 +24,7 @@ JFrames\MenuRegistrarIngresos$1.class
 JFrames\RegistrarGastos$2.class
 JFrames\MenuObjetivos$2.class
 JFrames\Menu$1.class
+JFrames\RegistrarGastos$3.class
 RegistrarIngreso\ConexionDB.class
 JFrames\Registro_Presupuesto$2.class
 JFrames\MenuGastos.class
@@ -31,6 +33,7 @@ JFrames\MenuReportes$6.class
 Clases\Usuario.class
 JFrames\MenuRegistrarIngresos$6.class
 JFrames\MenuObjetivos$3.class
+EditarGasto\ExportarGastos.class
 JFrames\RegistrarIngreso$3.class
 Clases\CLogin.class
 RegistrarIngreso\GestorFinanzas.class
@@ -50,7 +53,6 @@ JFrames\MenuRegistrarIngresos$4.class
 JFrames\Menu$4.class
 JFrames\MenuReportes$3.class
 JFrames\RegistrarGastos.class
-JFrames\MenuGastos$5.class
 JFrames\MenuReportes$2.class
 JFrames\FormLogin$3.class
 JFrames\FormRegistrar$3.class

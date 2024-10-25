@@ -187,7 +187,11 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_IngresosActionPerformed
 
     private void GastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GastosActionPerformed
-        // TODO add your handling code here:
+
+        MenuGastos IrMenu = new MenuGastos();  //Se cambia el Menu
+
+        // Hacer visible el formulario secundario
+        IrMenu.setVisible(true);
     }//GEN-LAST:event_GastosActionPerformed
 
     private void ObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ObjetivoActionPerformed
