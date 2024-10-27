@@ -39,7 +39,8 @@ public class MenuObjetivos extends javax.swing.JFrame {
         btnEliminarPresupuesto = new javax.swing.JButton();
         btnAgregarPresupuesto = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblObjetivos = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 204));
@@ -123,7 +124,7 @@ public class MenuObjetivos extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/objetivo1.png"))); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
-        jLabel3.setText("Menú Presupuestos");
+        jLabel3.setText("Menú Objetivo");
 
         btnEditarPresupuesto.setBackground(new java.awt.Color(153, 255, 153));
         btnEditarPresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -140,7 +141,7 @@ public class MenuObjetivos extends javax.swing.JFrame {
         btnAgregarPresupuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar.png"))); // NOI18N
         btnAgregarPresupuesto.setText("AGREGAR");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblObjetivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -151,15 +152,22 @@ public class MenuObjetivos extends javax.swing.JFrame {
                 "PRESUPUESTO", "CANTIDAD", "FECHA INCIO", "FECHA FIN", "SITUACION"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblObjetivos);
+
+        jButton1.setText("Presupuesto");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jButton1)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(117, 117, 117)
@@ -175,7 +183,7 @@ public class MenuObjetivos extends javax.swing.JFrame {
                                 .addComponent(btnEditarPresupuesto)
                                 .addGap(60, 60, 60)
                                 .addComponent(btnEliminarPresupuesto)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnAgregarPresupuesto)
                                 .addGap(46, 46, 46))))))
         );
@@ -194,9 +202,15 @@ public class MenuObjetivos extends javax.swing.JFrame {
                             .addComponent(btnEditarPresupuesto)
                             .addComponent(btnEliminarPresupuesto)
                             .addComponent(btnAgregarPresupuesto))))
-                .addGap(58, 58, 58)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(129, 129, 129))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -268,12 +282,13 @@ public class MenuObjetivos extends javax.swing.JFrame {
     private javax.swing.JButton btnGastoPresupuesto;
     private javax.swing.JButton btnIngresoPresupuesto;
     private javax.swing.JButton btnReportePresupuesto;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblObjetivos;
     // End of variables declaration//GEN-END:variables
 }
