@@ -36,14 +36,13 @@ public class GestorFinanzas {
      * @param categoria La categoría del ingreso.
      * @param fecha La fecha del ingreso.
      *
-     * @author Rodney Piers Salazar Arapa
      *
      */
     // Método para registrar el ingreso en la base de datos
     public void registrarIngreso(double monto, String categoria, LocalDate fecha) {
         String sql = "INSERT INTO ingresos (monto, categoria, fecha) VALUES (?, ?, ?)";
 
-        try (Connection conn = ConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = IngresoConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDouble(1, monto);
             pstmt.setString(2, categoria);
             pstmt.setDate(3, java.sql.Date.valueOf(fecha));
@@ -61,14 +60,13 @@ public class GestorFinanzas {
      * @return Una lista de objetos que representan los ingresos, donde cada
      * objeto es un arreglo que contiene el ID, monto, categoría y fecha.
      *
-     * @author Rodney Piers Salazar Arapa
      *
      */
     public List<Object[]> obtenerIngresos() {
         List<Object[]> ingresos = Lists.newArrayList();
         String sql = "SELECT * FROM ingresos";
 
-        try (Connection conn = ConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+        try (Connection conn = IngresoConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
 
             logger.info("Conexión establecida con la base de datos para obtener ingresos.");
 
@@ -97,13 +95,12 @@ public class GestorFinanzas {
      * @param nuevaCategoria La nueva categoría del ingreso.
      * @param nuevaFecha La nueva fecha del ingreso.
      *
-     * @author Rodney Piers Salazar Arapa
      *
      */
     public void actualizarIngreso(int id, double nuevoMonto, String nuevaCategoria, LocalDate nuevaFecha) {
         String sql = "UPDATE ingresos SET monto = ?, categoria = ?, fecha = ? WHERE id = ?";
 
-        try (Connection conn = ConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = IngresoConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDouble(1, nuevoMonto);
             pstmt.setString(2, nuevaCategoria);
             pstmt.setDate(3, java.sql.Date.valueOf(nuevaFecha));
@@ -126,13 +123,12 @@ public class GestorFinanzas {
      *
      * @param id El ID del ingreso a eliminar.
      *
-     * @author Rodney Piers Salazar Arapa
      *
      */
     public void eliminarIngreso(int id) {
         String sql = "DELETE FROM ingresos WHERE id = ?";
 
-        try (Connection conn = ConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = IngresoConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             int filasEliminadas = pstmt.executeUpdate();
             if (filasEliminadas > 0) {
@@ -151,7 +147,6 @@ public class GestorFinanzas {
      * @param ingresos La lista de ingresos a exportar, donde cada ingreso es un
      * arreglo de objetos que contiene el ID, monto, categoría y fecha.
      *
-     * @author Rodney Piers Salazar Arapa
      *
      */
     public void exportarIngresosAExcel(List<Object[]> ingresos) {
@@ -199,7 +194,6 @@ public class GestorFinanzas {
      * {@link #exportarIngresosAExcel(List<Object[]>)} para realizar la
      * exportación.
      *
-     * @author Rodney Piers Salazar Arapa
      *
      */
     public void exportarIngresos() {
@@ -211,8 +205,8 @@ public class GestorFinanzas {
      * Nos permite verificar si se está ejecutando satisfactoriamente el Google
      * Guava
      *
-     * @author Rodney Piers Salazar Arapa
      *
+     * @param args
      */
     public static void main(String[] args) {
         GestorFinanzas gestorFinanzas = new GestorFinanzas();

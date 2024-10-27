@@ -228,7 +228,6 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
          * Se asegura de limpiar la tabla antes de cargar los nuevos datos para
          * evitar duplicados.
          *
-         * @author Rodney Piers Salazar Arapa
          * @param evt El evento de acción que se produce al activar este método.
          */
         // Crear una instancia de GestorFinanzas
@@ -258,8 +257,6 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
          * visible el formulario correspondiente para permitir al usuario
          * agregar nuevos ingresos.
          *
-         * @author Rodney Piers Salazar Arapa
-         *
          * @param evt El evento de acción que se produce al activar este método.
          */
         // Crear una instancia del formulario secundario
@@ -279,8 +276,6 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
          * fecha, y actualiza la tabla y la base de datos con los nuevos
          * valores. Si no hay una fila seleccionada, muestra un mensaje de
          * advertencia.
-         *
-         * @author Rodney Piers Salazar Arapa
          *
          * @param evt El evento de acción que se produce al activar este método.
          */
@@ -342,8 +337,6 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
          * hace visible. No se realizan otras operaciones ni se guardan datos
          * antes de cambiar de formulario.
          *
-         * @author Rodney Piers Salazar Arapa
-         *
          * @param evt El evento de acción que se produce al activar este método.
          */
         // Crear una instancia del formulario secundario
@@ -364,8 +357,6 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
          * Si no hay ninguna fila seleccionada, muestra un mensaje de
          * advertencia. En caso de error durante la eliminación, se muestra un
          * mensaje de error.
-         *
-         * @author Rodney Piers Salazar Arapa
          *
          * @param evt El evento de acción que se produce al activar este método.
          */
@@ -427,6 +418,12 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MenuRegistrarIngresos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
