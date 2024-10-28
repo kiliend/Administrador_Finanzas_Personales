@@ -4,12 +4,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ *clase encargada del registro de un nuuevo usuario
+ * @author ANDREI KENDRICK YAIR BERNAOLA SANDOVAL
+ */
+
 public class RegistroUsuario {
 
+    /**
+     * metodo para registrar un nuevo usuario en la base de datos
+     * @author ANDREI KENDRICK YAIR BERNAOLA SANDOVAL
+     * 
+     * @param usuario un nuevo usuario
+     * @return registro exitoso
+     */
     public boolean registrarUsuario(Usuario usuario) {
         Conexion conexion = new Conexion();
         Connection con = conexion.estableceConexion();
-        String sql = "INSERT INTO Usuario(nombre, apellidos, dni, telefono, correo_electronico, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Usuario(nombre, apellidos, dni, telefono, "
+                + "correo_electronico, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -22,6 +35,42 @@ public class RegistroUsuario {
             ps.setString(7, usuario.getContrasena());
             ps.executeUpdate();
             return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    /**
+     * metodo para editar la informacion de un usuario existente.
+     * @author ANDREI KENDRICK YAIR BERNAOLA SANDOVAL
+     * 
+     * @param usuario usuario con datos validos
+     * @return usuario editado
+     */
+    public boolean editarUsuario(Usuario usuario) {
+        Conexion conexion = new Conexion();
+        Connection con = conexion.estableceConexion();
+        String sql = "UPDATE Usuario SET nombre = ?, apellidos = ?, telefono = ?, "
+                + "correo_electronico = ?, usuario = ?, contrasena = ? WHERE dni = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, usuario.getNombre());
+            ps.setString(2, usuario.getApellidos());
+            ps.setString(3, usuario.getTelefono());
+            ps.setString(4, usuario.getCorreoElectronico());
+            ps.setString(5, usuario.getUsuario());
+            ps.setString(6, usuario.getContrasena());
+            ps.setString(7, usuario.getDni());
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; 
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
