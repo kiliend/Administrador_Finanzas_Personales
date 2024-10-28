@@ -164,14 +164,15 @@ public class Registro_Objetivo extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6)
-                            .addComponent(jDateChooserFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jDateChooserFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel6)))
                         .addGap(21, 21, 21)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel5)))
                     .addComponent(jDateChooserFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(57, 57, 57)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -195,6 +196,23 @@ public class Registro_Objetivo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPresupuestoActionPerformed
+    String descripcion = txtObjetivoAhorro.getText();
+    double cantidad = Double.parseDouble(txtCantidadObjetivo.getText());
+    Date fechaInicio = new Date(jDateChooserFechaInicio.getDate().getTime());
+    Date fechaFin = new Date(jDateChooserFechaFin.getDate().getTime());
+
+    // Crear el objeto objetivo
+    Objetivo nuevoObjetivo = new Objetivo(0, descripcion, fechaInicio, fechaFin, cantidad);
+
+    // Agregar el objetivo a la base de datos
+    ObjetivoDAOImpl objetivoDAO = new ObjetivoDAOImpl();
+    objetivoDAO.addObjetivo(nuevoObjetivo); // Implementar este método en el DAO
+
+    // Limpiar los campos después de agregar
+    txtObjetivoAhorro.setText("");
+    txtCantidadObjetivo.setText("");
+    jDateChooserFechaInicio.setDate(null);
+    jDateChooserFechaFin.setDate(null);
 
     }//GEN-LAST:event_btnRegistrarPresupuestoActionPerformed
 
@@ -203,8 +221,10 @@ public class Registro_Objetivo extends javax.swing.JFrame {
     }//GEN-LAST:event_txtObjetivoAhorroActionPerformed
 
     private void btnRegresarPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarPresupuestoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRegresarPresupuestoActionPerformed
+        MenuObjetivos VolverMenu = new MenuObjetivos();
+
+        // Hacer visible el formulario secundario
+        VolverMenu.setVisible(true);    }//GEN-LAST:event_btnRegresarPresupuestoActionPerformed
 
     /**
      * @param args the command line arguments

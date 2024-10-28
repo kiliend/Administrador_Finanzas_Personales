@@ -22,3 +22,21 @@
 - Caso de Uso: Editar Gasto (Frontend)
 - Caso de Uso: Generar Reporte (Frontend)
 - Caso de Uso: Establecer Presupuesto y Recibir Alerta (Frontend)
+
+# Proyecto de Gestión de Finanzas Personales
+
+Este proyecto es una aplicación para gestionar finanzas personales, desarrollada en Java y JavaSwim
+
+## Características
+- Gestión de gastos e ingresos
+- Generación de reportes financieros
+- Establecimiento de objetivos de ahorro
+
+## Requisitos
+- Java 17+
+- MySQL
+
+## Instalación
+1. Clonar el repositorio: 
+
+   git clone https://github.com/kiliend/Administrador_Finanzas_Personales.git

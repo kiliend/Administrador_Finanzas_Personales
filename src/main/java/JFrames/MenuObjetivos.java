@@ -40,7 +40,7 @@ public class MenuObjetivos extends javax.swing.JFrame {
         btnAgregarPresupuesto = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblObjetivos = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnPresupuestos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 204));
@@ -140,6 +140,11 @@ public class MenuObjetivos extends javax.swing.JFrame {
         btnAgregarPresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAgregarPresupuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar.png"))); // NOI18N
         btnAgregarPresupuesto.setText("AGREGAR");
+        btnAgregarPresupuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPresupuestoActionPerformed(evt);
+            }
+        });
 
         tblObjetivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -154,7 +159,7 @@ public class MenuObjetivos extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblObjetivos);
 
-        jButton1.setText("Presupuesto");
+        btnPresupuestos.setText("Presupuesto");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -167,7 +172,7 @@ public class MenuObjetivos extends javax.swing.JFrame {
                         .addComponent(jLabel2))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
-                        .addComponent(jButton1)))
+                        .addComponent(btnPresupuestos)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(117, 117, 117)
@@ -178,12 +183,12 @@ public class MenuObjetivos extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(84, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(btnEditarPresupuesto)
-                                .addGap(60, 60, 60)
-                                .addComponent(btnEliminarPresupuesto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnEliminarPresupuesto)
+                                .addGap(29, 29, 29)
                                 .addComponent(btnAgregarPresupuesto)
                                 .addGap(46, 46, 46))))))
         );
@@ -209,7 +214,7 @@ public class MenuObjetivos extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(btnPresupuestos)
                         .addGap(129, 129, 129))))
         );
 
@@ -238,6 +243,13 @@ public class MenuObjetivos extends javax.swing.JFrame {
     private void btnCerrarSesionPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionPresupuestoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCerrarSesionPresupuestoActionPerformed
+
+    private void btnAgregarPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPresupuestoActionPerformed
+        Registro_Objetivo RegistroO = new Registro_Objetivo();
+
+        // Hacer visible el formulario secundario
+        RegistroO.setVisible(true);  
+    }//GEN-LAST:event_btnAgregarPresupuestoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,8 +293,8 @@ public class MenuObjetivos extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarPresupuesto;
     private javax.swing.JButton btnGastoPresupuesto;
     private javax.swing.JButton btnIngresoPresupuesto;
+    private javax.swing.JButton btnPresupuestos;
     private javax.swing.JButton btnReportePresupuesto;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -4,6 +4,8 @@
  */
 package Clases;
 
+import java.sql.Date;
+
 /**
  *
  * @author Luan Condori
@@ -24,6 +26,10 @@ public class Objetivo {
         this.fechaFin = fechaFin;
         this.cantidad = cantidad;
         this.idUsuario = idUsuario;
+    }
+
+    public Objetivo(int i, String descripcion, Date fechaInicio, Date fechaFin, double cantidad) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public int getIdObjetivo() {

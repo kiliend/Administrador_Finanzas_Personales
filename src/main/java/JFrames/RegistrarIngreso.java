@@ -65,6 +65,12 @@ public class RegistrarIngreso extends javax.swing.JFrame {
         monto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         monto.setText("Ingrese Monto:");
 
+        txtMonto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMontoActionPerformed(evt);
+            }
+        });
+
         categoria.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         categoria.setText("¿Que tipo de ingreso es?:");
 
@@ -258,6 +264,10 @@ public class RegistrarIngreso extends javax.swing.JFrame {
         // Hacer visible el formulario secundario
         VolverMenu.setVisible(true);
     }//GEN-LAST:event_VolverMenuActionPerformed
+
+    private void txtMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMontoActionPerformed
 
     /**
      * @param args the command line arguments

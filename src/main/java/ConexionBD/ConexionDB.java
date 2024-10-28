@@ -9,7 +9,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
+ * Clase para gestionar la conexión a la base de datos MySQL.
+ * Proporciona métodos para obtener y cerrar la conexión.
+ * 
+ * <p>
+ * Esta clase se utiliza para conectar la aplicación a la base de datos
+ * "FinanzasPersonales" mediante el driver JDBC de MySQL.
+ * </p>
+ * 
  * @author Luan Condori
  */
 public class ConexionDB 
@@ -18,7 +25,19 @@ public class ConexionDB
     private static final String USUARIO = "tu_usuario";
     private static final String CONTRASENA = "tu_contrasena"; 
 
-    // Método para obtener la conexión a la base de datos
+    /**
+     * Obtiene una conexión a la base de datos.
+     * 
+     * <p>
+     * Este método carga el driver JDBC de MySQL y establece una conexión
+     * con la base de datos especificada en la URL. Si la conexión es exitosa,
+     * se devuelve un objeto {@link Connection}. En caso de error, se captura
+     * y maneja la excepción.
+     * </p>
+     * 
+     * @return un objeto {@link Connection} si la conexión es exitosa, 
+     *         {@code null} en caso contrario.
+     */
     public static Connection getConexion() {
         Connection conexion = null;
         try {
@@ -35,7 +54,17 @@ public class ConexionDB
         return conexion;
     }
 
-    // Método para cerrar la conexión
+    /**
+     * Cierra la conexión a la base de datos.
+     * 
+     * <p>
+     * Este método cierra la conexión especificada, si no es {@code null}.
+     * Si ocurre un error al cerrar la conexión, la excepción se captura
+     * y se imprime un mensaje de error.
+     * </p>
+     * 
+     * @param conexion el objeto {@link Connection} a cerrar.
+     */
     public static void cerrarConexion(Connection conexion) {
         if (conexion != null) {
             try {
