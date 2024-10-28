@@ -13,7 +13,6 @@ public class RegistroUsuario {
 
     /**
      * metodo para registrar un nuevo usuario en la base de datos
-     * @author ANDREI KENDRICK YAIR BERNAOLA SANDOVAL
      * 
      * @param usuario un nuevo usuario
      * @return registro exitoso
@@ -49,7 +48,6 @@ public class RegistroUsuario {
     
     /**
      * metodo para editar la informacion de un usuario existente.
-     * @author ANDREI KENDRICK YAIR BERNAOLA SANDOVAL
      * 
      * @param usuario usuario con datos validos
      * @return usuario editado
