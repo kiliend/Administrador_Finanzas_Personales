@@ -24,9 +24,10 @@
 
 # Proyecto de Gestión de Finanzas Personales
 
-Este proyecto es una aplicación para gestionar finanzas personales, desarrollada en Java y JavaSwim
+Este proyecto es una aplicación para gestionar finanzas personales, desarrollada en Java y JavaSwing
 
 ## Características
+- Registro e Inicio de Sesión
 - Gestión de gastos e ingresos
 - Generación de reportes financieros
 - Establecimiento de objetivos de ahorro
@@ -34,8 +35,3 @@ Este proyecto es una aplicación para gestionar finanzas personales, desarrollad
 ## Requisitos
 - Java 17+
 - MySQL
-
-## Instalación
-1. Clonar el repositorio: 
-
-   git clone https://github.com/kiliend/Administrador_Finanzas_Personales.git
