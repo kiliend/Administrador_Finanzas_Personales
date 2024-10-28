@@ -13,7 +13,6 @@ public class CLogin {
 
     /**
      * metodo para la verificacion de usuario y contraseña 
-     * @author ANDREI KENDRICK YAIR BERNAOLA SANDOVAL
      * 
      * @param usuario identificador del usuario
      * @param contrasena contraseña del usuario 
