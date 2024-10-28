@@ -20,7 +20,6 @@
 - Caso de Uso: Registro e Inicio de Sesión
 - Caso de Uso: Definir Objetivo Financiero (Frontend)
 - Caso de Uso: Editar Gasto (Frontend)
-- Caso de Uso: Generar Reporte (Frontend)
 - Caso de Uso: Establecer Presupuesto y Recibir Alerta (Frontend)
 
 # Proyecto de Gestión de Finanzas Personales

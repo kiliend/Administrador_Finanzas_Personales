@@ -1,6 +1,6 @@
 package JFrames;
 
-import EditarGasto.ConexionDB;
+import EditarGasto.GastosConexionDB;
 import RegistrarIngreso.GestorFinanzas;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
@@ -10,6 +10,19 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * La clase {@code MenuGastos} es una interfaz gráfica que muestra y gestiona
+ * los datos relacionados con los gastos. Permite la transferencia de datos
+ * desde una base de datos de ingresos hacia una de gastos y los muestra en un
+ * componente de tabla.
+ * <p>
+ * Esta clase utiliza la clase {@code ConexionDB} para la gestión de conexiones
+ * a las bases de datos de ingresos y gastos, y SLF4J para el registro de logs.
+ * </p>
+ *
+ * @author Rodney Piers Salazar Arapa
+ *
+ */
 public class MenuGastos extends javax.swing.JFrame {
 
     private static final Logger logger = LoggerFactory.getLogger(MenuGastos.class);
@@ -17,6 +30,12 @@ public class MenuGastos extends javax.swing.JFrame {
     private GestorFinanzas gestorFinanzas; // Instancia de GestorFinanzas
     private DefaultTableModel tableModel; // Modelo de la tabla
 
+    /**
+     * Crea una instancia de {@code MenuGastos} y inicializa los componentes del
+     * JFrame, así como el modelo de la tabla. También llama al método
+     * {@link #transferirDatos()} para realizar la transferencia inicial de
+     * datos de ingresos a gastos.
+     */
     public MenuGastos() {
         initComponents();
         gestorFinanzas = new GestorFinanzas();
@@ -25,11 +44,20 @@ public class MenuGastos extends javax.swing.JFrame {
         logger.info("MenuGastos inicializado correctamente.");
     }
 
+    /**
+     * Transfiere los datos desde la tabla de ingresos a la tabla de gastos.
+     * Este método selecciona los datos de ingresos y los inserta en la tabla de
+     * gastos si aún no existen para evitar duplicados.
+     * <p>
+     * En el proceso, realiza la conexión a ambas bases de datos y maneja
+     * posibles excepciones de SQL.
+     * </p>
+     */
     public void transferirDatos() {
         String sqlSelect = "SELECT id, monto, categoria, fecha FROM ingresos";
         String sqlInsert = "INSERT INTO gastos (id, monto, categoria, fecha, descripcion) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection connIngresos = ConexionDB.getConnection(); Connection connGastos = ConexionDB.getConnectionGastos(); PreparedStatement pstmtSelect = connIngresos.prepareStatement(sqlSelect); ResultSet rs = pstmtSelect.executeQuery(); PreparedStatement pstmtInsert = connGastos.prepareStatement(sqlInsert)) {
+        try (Connection connIngresos = GastosConexionDB.getConnection(); Connection connGastos = GastosConexionDB.getConnectionGastos(); PreparedStatement pstmtSelect = connIngresos.prepareStatement(sqlSelect); ResultSet rs = pstmtSelect.executeQuery(); PreparedStatement pstmtInsert = connGastos.prepareStatement(sqlInsert)) {
 
             logger.info("Iniciando transferencia de datos de ingresos a gastos.");
             while (rs.next()) {
@@ -54,6 +82,7 @@ public class MenuGastos extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -204,19 +233,36 @@ public class MenuGastos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GastosActionPerformed
-
+        /**
+         * Acción realizada al presionar el botón "Gastos". Carga los datos en
+         * la tabla correspondiente llamando al método {@link #cargarDatos()}.
+         *
+         * @param evt el evento de acción generado por el botón "Gastos"
+         */
         cargarDatos(); // Cargar datos al presionar el botón Gastos
     }//GEN-LAST:event_GastosActionPerformed
 
     private void CerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarSesionActionPerformed
 
-        Menu IrMenu = new Menu();  //Se cambia el Menu
-
+        /**
+         * Acción realizada al presionar el botón "Cerrar Sesión". Actualmente,
+         * este método no implementa ninguna acción ya que el código para el
+         * cambio de formulario está comentado.
+         *
+         * @param evt el evento de acción generado por el botón "Cerrar Sesión"
+         */
+         Menu IrMenu = new Menu();  //Se cambia el Menu
         // Hacer visible el formulario secundario
-        IrMenu.setVisible(true);
+         IrMenu.setVisible(true);
     }//GEN-LAST:event_CerrarSesionActionPerformed
 
     private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
+        /**
+         * Acción realizada al presionar el botón "Editar". Este método crea una
+         * nueva instancia de {@code RegistrarGastos} y la hace visible.
+         *
+         * @param evt el evento de acción generado por el botón "Editar"
+         */
         logger.info("Botón 'Editar' presionado.");
         RegistrarGastos IrMenu = new RegistrarGastos();  //Se cambia el Menu
 
@@ -225,10 +271,15 @@ public class MenuGastos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_EditarActionPerformed
 
+    /**
+     * Carga los datos de la tabla "gastos" de la base de datos y los muestra en
+     * la tabla del componente de la interfaz. Limpia previamente el modelo de
+     * la tabla para evitar duplicados.
+     */
     private void cargarDatos() {
         String sql = "SELECT id, monto, categoria, fecha, descripcion FROM gastos"; // Asegúrate de que apunta a la tabla 'gastos'
 
-        try (Connection conn = ConexionDB.getConnectionGastos(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+        try (Connection conn = GastosConexionDB.getConnectionGastos(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
 
             tableModel.setRowCount(0); // Limpiar la tabla antes de agregar nuevos datos
             logger.info("Cargando datos de la tabla gastos.");
@@ -251,9 +302,16 @@ public class MenuGastos extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Verifica si un gasto con el ID especificado ya existe en la tabla
+     * "gastos".
+     *
+     * @param id el ID del gasto a verificar
+     * @return {@code true} si el gasto existe, {@code false} en caso contrario
+     */
     private boolean gastoExists(int id) {
         String sqlCheck = "SELECT COUNT(*) FROM gastos WHERE id = ?";
-        try (Connection conn = ConexionDB.getConnectionGastos(); PreparedStatement pstmt = conn.prepareStatement(sqlCheck)) {
+        try (Connection conn = GastosConexionDB.getConnectionGastos(); PreparedStatement pstmt = conn.prepareStatement(sqlCheck)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -266,6 +324,13 @@ public class MenuGastos extends javax.swing.JFrame {
         return false; // Retorna false si hubo un error o no existe
     }
 
+    /**
+     * Punto de entrada principal para la aplicación. Configura el aspecto de la
+     * interfaz gráfica utilizando el tema Nimbus y crea una instancia del
+     * formulario {@code MenuGastos}.
+     *
+     * @param args los argumentos de la línea de comandos
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -288,6 +353,13 @@ public class MenuGastos extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MenuGastos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

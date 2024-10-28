@@ -205,7 +205,6 @@ public class RegistrarIngreso extends javax.swing.JFrame {
          * @throws NumberFormatException si el formato del monto es incorrecto
          * @throws DateTimeParseException si el formato de la fecha es
          * incorrecto
-         * @author Rodney Piers Salazar Arapa
          */
         // 1. Obtener los valores de los campos de texto
         String montoStr = txtMonto.getText();
@@ -256,7 +255,6 @@ public class RegistrarIngreso extends javax.swing.JFrame {
          *
          * @param evt el evento de acción generado por el usuario al hacer clic
          * en el botón
-         * @author Rodney Piers Salazar Arapa
          */
 // Crear una instancia del formulario secundario
         MenuRegistrarIngresos VolverMenu = new MenuRegistrarIngresos();
@@ -294,6 +292,9 @@ public class RegistrarIngreso extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RegistrarIngreso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
