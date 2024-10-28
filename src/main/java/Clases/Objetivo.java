@@ -5,6 +5,7 @@
 package Clases;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -14,22 +15,18 @@ public class Objetivo {
     
     private int idObjetivo;
     private String descripcion;
-    private String fechaInicio;
-    private String fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
     private double cantidad;
     private int idUsuario;    
 
-    public Objetivo(int idObjetivo, String descripcion, String fechaInicio, String fechaFin, double cantidad, int idUsuario) {
+    public Objetivo(int idObjetivo, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, double cantidad, int idUsuario) {
         this.idObjetivo = idObjetivo;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.cantidad = cantidad;
         this.idUsuario = idUsuario;
-    }
-
-    public Objetivo(int i, String descripcion, Date fechaInicio, Date fechaFin, double cantidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public int getIdObjetivo() {
@@ -48,19 +45,19 @@ public class Objetivo {
         this.descripcion = descripcion;
     }
 
-    public String getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(String fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public String getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(String fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -79,6 +76,4 @@ public class Objetivo {
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
-    
-    
 }

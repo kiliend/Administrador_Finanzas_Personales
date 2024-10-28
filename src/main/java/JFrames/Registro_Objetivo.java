@@ -6,7 +6,12 @@ package JFrames;
 
 import ClaseDAOImpl.ObjetivoDAOImpl;
 import Clases.Objetivo;
+import ConexionBD.ConexionDB;
+import java.sql.Connection;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -196,24 +201,37 @@ public class Registro_Objetivo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPresupuestoActionPerformed
-    String descripcion = txtObjetivoAhorro.getText();
-    double cantidad = Double.parseDouble(txtCantidadObjetivo.getText());
-    Date fechaInicio = new Date(jDateChooserFechaInicio.getDate().getTime());
-    Date fechaFin = new Date(jDateChooserFechaFin.getDate().getTime());
+Connection conexion = ConexionDB.getConexion(); // Reemplaza esto con tu método para obtener la conexión
 
-    // Crear el objeto objetivo
-    Objetivo nuevoObjetivo = new Objetivo(0, descripcion, fechaInicio, fechaFin, cantidad);
+// Obtén los valores de los campos de entrada
+String descripcion = txtObjetivoAhorro.getText();
+double cantidad = Double.parseDouble(txtCantidadObjetivo.getText());
 
-    // Agregar el objetivo a la base de datos
-    ObjetivoDAOImpl objetivoDAO = new ObjetivoDAOImpl();
-    objetivoDAO.addObjetivo(nuevoObjetivo); // Implementar este método en el DAO
+// Convierte las fechas de jDateChooser a LocalDate
+LocalDate fechaInicio = jDateChooserFechaInicio.getDate().toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate();
+LocalDate fechaFin = jDateChooserFechaFin.getDate().toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate();
 
-    // Limpiar los campos después de agregar
-    txtObjetivoAhorro.setText("");
-    txtCantidadObjetivo.setText("");
-    jDateChooserFechaInicio.setDate(null);
-    jDateChooserFechaFin.setDate(null);
+int idUsuario = 0; // Ajusta este valor según corresponda
 
+// Crea el objeto objetivo
+Objetivo nuevoObjetivo = new Objetivo(0, descripcion, fechaInicio, fechaFin, cantidad, idUsuario);
+
+// Agrega el objetivo a la base de datos
+ObjetivoDAOImpl objetivoDAO = new ObjetivoDAOImpl(conexion);
+objetivoDAO.insertar(nuevoObjetivo);
+
+// Limpia los campos después de agregar
+txtObjetivoAhorro.setText("");
+txtCantidadObjetivo.setText("");
+jDateChooserFechaInicio.setDate(null);
+jDateChooserFechaFin.setDate(null);
+
+// Muestra un mensaje de confirmación
+JOptionPane.showMessageDialog(null, "Objetivo agregado exitosamente.");
     }//GEN-LAST:event_btnRegistrarPresupuestoActionPerformed
 
     private void txtObjetivoAhorroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtObjetivoAhorroActionPerformed

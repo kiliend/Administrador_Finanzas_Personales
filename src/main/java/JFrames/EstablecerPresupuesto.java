@@ -5,6 +5,8 @@
 package JFrames;
 
 import ClaseDAOImpl.CategoriaGastoDAOImpl;
+import ConexionBD.ConexionDB;
+import java.sql.Connection;
 import javax.swing.JOptionPane;
 
 /**
@@ -257,7 +259,7 @@ public class EstablecerPresupuesto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void bntModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntModificarActionPerformed
-    // Recoger los datos de cada campo de texto
+try {
     double alimentacion = Double.parseDouble(txtAlimentacion.getText());
     double deudas = Double.parseDouble(txtDeudas.getText());
     double educacion = Double.parseDouble(txtEducacion.getText());
@@ -268,10 +270,11 @@ public class EstablecerPresupuesto extends javax.swing.JFrame {
     double transporte = Double.parseDouble(txtTransporte.getText());
     double vivienda = Double.parseDouble(txtVivienda.getText());
 
-    // Crear el DAO de CategoriaGasto
-    CategoriaGastoDAOImpl categoriaGastoDAO = new CategoriaGastoDAOImpl();
+    // Crear el DAO de CategoriaGasto con la conexión existente
+    Connection conexion = ConexionDB.getConexion();
+    CategoriaGastoDAOImpl categoriaGastoDAO = new CategoriaGastoDAOImpl(conexion);
 
-    // Actualizar o insertar cada categoría en la base de datos
+    // Actualizar cada categoría en la base de datos
     categoriaGastoDAO.updateCategoriaGasto("Alimentación", alimentacion);
     categoriaGastoDAO.updateCategoriaGasto("Deudas y préstamos", deudas);
     categoriaGastoDAO.updateCategoriaGasto("Educación", educacion);
@@ -295,6 +298,11 @@ public class EstablecerPresupuesto extends javax.swing.JFrame {
 
     // Mostrar un mensaje de éxito
     JOptionPane.showMessageDialog(this, "Categorías actualizadas exitosamente.");
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "Por favor, ingresa valores numéricos válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
     }//GEN-LAST:event_bntModificarActionPerformed
 
     /**
