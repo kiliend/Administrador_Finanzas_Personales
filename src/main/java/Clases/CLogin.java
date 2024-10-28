@@ -5,8 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * clase encargada del inicio de sesion
+ * @author ANDREI KENDRICK YAIR
+ */
 public class CLogin {
 
+    /**
+     * metodo para la verificacion de usuario y contraseña 
+     * @author ANDREI KENDRICK YAIR BERNAOLA SANDOVAL
+     * 
+     * @param usuario identificador del usuario
+     * @param contrasena contraseña del usuario 
+     * @return inicio de sesion exitoso
+     */
     public boolean validarUsuario(String usuario, String contrasena) {
         Conexion conexion = new Conexion();
         Connection con = conexion.estableceConexion();
