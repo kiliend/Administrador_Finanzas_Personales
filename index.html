@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Barras</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Gráfico de Barras</h2>
+    <canvas id="myBarChart"></canvas>
+    <script>
+        const ctx = document.getElementById('myBarChart').getContext('2d');
+        const myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Categoría 1', 'Categoría 2', 'Categoría 3', 'Categoría 4'],
+                datasets: [{
+                    label: 'Valores',
+                    data: [12, 19, 3, 5],
+                    backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#FF5722']
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
