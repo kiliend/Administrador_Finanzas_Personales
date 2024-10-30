@@ -61,5 +61,5 @@ Para incluir estas dependencias, asegúrate de agregarlas en tu archivo `pom.xml
 
 ## Instalación
 - Es nesesario tener la version del JDK 22 o mayores, ademas de utilizar el Apache NetBeans IDE 22.
-- se puedeclonar el repositoria direcctamente mediante comandos gits git.
+- se puede clonar el repositorio directamente mediante el comando git: `git clone`.
 - el enlace de conexion es https://github.com/kiliend/Administrador_Finanzas_Personales.
