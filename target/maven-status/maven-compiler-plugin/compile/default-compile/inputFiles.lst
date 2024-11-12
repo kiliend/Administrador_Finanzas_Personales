@@ -1,24 +1,33 @@
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\Clases\Usuario.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\Clases\Gasto.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\JFrames\Menu.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\JFrames\MenuRegistrarIngresos.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\JFrames\MenuObjetivos.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\Clases\User.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\JFrames\MenuReportes.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\RegistrarIngreso\GestorFinanzas.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\Clases\RegistroUsuario.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\EditarGasto\ConexionDB.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\JFrames\MenuGastos.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\Clases\Conexion.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\com\mycompany\administrador_finanzas_personales\Administrador_Finanzas_Personales.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\JFrames\RegistrarGastos.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\RegistrarIngreso\ConexionDB.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\Clases\Presupuesto.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\JFrames\FormRegistrar.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\Clases\Ingreso.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\EditarGasto\ExportarGastos.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\JFrames\RegistrarIngreso.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\Clases\CLogin.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\JFrames\FormLogin.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\JFrames\Registro_Presupuesto.java
-C:\Users\familia4\Documents\NetBeansProjects\WEB\Administrador_Finanzas_Personales1_1\src\main\java\RegistrarIngreso\Ingreso.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\FormRegistrar.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\Registro_Objetivo.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\MenuRegistrarIngresos.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\MenuReportes.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\RegistrarIngreso\IngresoConexionDB.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\com\mycompany\administrador_finanzas_personales\Administrador_Finanzas_Personales.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\Clases\CLogin.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\ClaseDAO\ObjetivoDAO.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\Menu.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\Clases\Objetivo.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\Clases\User.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\ClaseDAO\CategoriaGastoDAO.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\MenuGastos.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\RegistrarGastos.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\Clases\CategoriaGasto.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\Clases\Usuario.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\FormLogin.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\EditarGasto\ExportarGastos.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\MenuObjetivos.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\EditarGasto\ConexionDB.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\EditarGasto\GastosConexionDB.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\RegistrarIngreso\ConexionDB.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\RegistrarIngreso\Ingreso.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\Clases\Ingreso.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\Clases\RegistroUsuario.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\RegistrarIngreso\GestorFinanzas.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\ClaseDAOImpl\ObjetivoDAOImpl.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\Clases\Gasto.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\RegistrarIngreso.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\ClaseDAOImpl\CategoriaGastoDAOImpl.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\ConexionBD\ConexionDB.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\Clases\Conexion.java
+C:\Users\Luan Condori\Documents\NetBeansProjects\Administrador_Finanzas_Personales\src\main\java\JFrames\EstablecerPresupuesto.java

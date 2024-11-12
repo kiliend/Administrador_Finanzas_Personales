@@ -8,7 +8,6 @@ import ClaseDAOImpl.ObjetivoDAOImpl;
 import Clases.Objetivo;
 import ConexionBD.ConexionDB;
 import java.sql.Connection;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import javax.swing.JOptionPane;

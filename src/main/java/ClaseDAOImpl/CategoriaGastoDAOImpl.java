@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package ClaseDAOImpl;
 
 import ClaseDAO.CategoriaGastoDAO;
@@ -34,9 +31,7 @@ public class CategoriaGastoDAOImpl implements CategoriaGastoDAO
         this.conexion = conexion;
     }
 
-    public CategoriaGastoDAOImpl() {
- 
-    }
+
      /**
      * Actualiza la asignación de una categoría de gasto en la base de datos
      * basada en el nombre.
