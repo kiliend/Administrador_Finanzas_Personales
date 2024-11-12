@@ -9,34 +9,34 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Clase para gestionar la conexión a la base de datos MySQL.
- * Proporciona métodos para obtener y cerrar la conexión.
- * 
+ * Clase para gestionar la conexión a la base de datos MySQL. Proporciona
+ * métodos para obtener y cerrar la conexión.
+ *
  * <p>
  * Esta clase se utiliza para conectar la aplicación a la base de datos
  * "FinanzasPersonales" mediante el driver JDBC de MySQL.
  * </p>
- * 
+ *
  * @author Luan Condori
  */
-public class ConexionDB 
-{
-    private static final String URL = "jdbc:mysql://localhost:3306/finanzaspersonales";
+public class ConexionDB {
+
+    private static final String URL = "jdbc:mysql://localhost:3306/administrador";
     private static final String USUARIO = "root";
-    private static final String CONTRASENA = "root"; 
+    private static final String CONTRASENA = "root";
 
     /**
      * Obtiene una conexión a la base de datos.
-     * 
+     *
      * <p>
-     * Este método carga el driver JDBC de MySQL y establece una conexión
-     * con la base de datos especificada en la URL. Si la conexión es exitosa,
-     * se devuelve un objeto {@link Connection}. En caso de error, se captura
-     * y maneja la excepción.
+     * Este método carga el driver JDBC de MySQL y establece una conexión con la
+     * base de datos especificada en la URL. Si la conexión es exitosa, se
+     * devuelve un objeto {@link Connection}. En caso de error, se captura y
+     * maneja la excepción.
      * </p>
-     * 
-     * @return un objeto {@link Connection} si la conexión es exitosa, 
-     *         {@code null} en caso contrario.
+     *
+     * @return un objeto {@link Connection} si la conexión es exitosa,
+     * {@code null} en caso contrario.
      */
     public static Connection getConexion() {
         Connection conexion = null;
@@ -56,13 +56,13 @@ public class ConexionDB
 
     /**
      * Cierra la conexión a la base de datos.
-     * 
+     *
      * <p>
-     * Este método cierra la conexión especificada, si no es {@code null}.
-     * Si ocurre un error al cerrar la conexión, la excepción se captura
-     * y se imprime un mensaje de error.
+     * Este método cierra la conexión especificada, si no es {@code null}. Si
+     * ocurre un error al cerrar la conexión, la excepción se captura y se
+     * imprime un mensaje de error.
      * </p>
-     * 
+     *
      * @param conexion el objeto {@link Connection} a cerrar.
      */
     public static void cerrarConexion(Connection conexion) {
@@ -74,5 +74,5 @@ public class ConexionDB
                 System.out.println("Error al cerrar la conexión: " + e.getMessage());
             }
         }
-    }    
+    }
 }

@@ -271,6 +271,10 @@ public class RegistrarGastos extends javax.swing.JFrame {
                 int filasAfectadas = pstmt.executeUpdate(); // Ejecutar la consulta de actualización
                 if (filasAfectadas > 0) {
                     javax.swing.JOptionPane.showMessageDialog(this, "Gasto actualizado exitosamente.");
+                                    // Exportar los gastos a Excel
+                ExportarGastos exportarGastos = new ExportarGastos();
+                List<Object[]> listaGastos = obtenerGastos();
+                exportarGastos.exportarGastosAExcel(listaGastos);
                     logger.info("Gasto actualizado exitosamente con ID: {}", id);
                 } else {
                     javax.swing.JOptionPane.showMessageDialog(this, "No se pudo actualizar el gasto con ID " + id + ".");

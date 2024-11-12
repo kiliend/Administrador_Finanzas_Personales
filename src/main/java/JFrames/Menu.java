@@ -94,7 +94,7 @@ public class Menu extends javax.swing.JFrame {
 
         btnUsuario.setBackground(new java.awt.Color(0, 204, 255));
         btnUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png"))); // NOI18N
+        btnUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ingreso.png"))); // NOI18N
         btnUsuario.setText("Usuario");
         btnUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

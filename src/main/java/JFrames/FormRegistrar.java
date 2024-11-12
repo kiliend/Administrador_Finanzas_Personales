@@ -20,8 +20,8 @@ public class FormRegistrar extends javax.swing.JFrame {
      */
     public FormRegistrar() {
         initComponents();
-         setSize(545, 489);
-            this.setLayout(new FlowLayout());
+        setSize(545, 489);
+        this.setLayout(new FlowLayout());
     }
 
     /**
@@ -236,31 +236,63 @@ public class FormRegistrar extends javax.swing.JFrame {
 
     private void jBRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRegistrarUsuarioActionPerformed
 
-    Usuario usuario = new Usuario(txNombreU.getText(), txApellidoU.getText(), txDniU.getText(), 
-        txTelefonoU.getText(), txCorreoU.getText(), txUsuarioRegistro.getText(), new String(psContraseñaRegistro.getPassword()));
+        // Validar que los campos no estén vacíos
+        if (txNombreU.getText().isEmpty() || txApellidoU.getText().isEmpty() || txDniU.getText().isEmpty()
+                || txTelefonoU.getText().isEmpty() || txCorreoU.getText().isEmpty() || txUsuarioRegistro.getText().isEmpty()
+                || new String(psContraseñaRegistro.getPassword()).isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos");
+            return;
+        }
 
-    RegistroUsuario dao = new RegistroUsuario();
-    
-    if (dao.registrarUsuario(usuario)) {
-        JOptionPane.showMessageDialog(null, "Usuario registrado con éxito");
-    } else {
-        JOptionPane.showMessageDialog(null, "Error al registrar usuario");
-    }
+        // Validar formato de correo electrónico
+        String email = txCorreoU.getText();
+        if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            JOptionPane.showMessageDialog(null, "Ingrese un correo electrónico válido");
+            return;
+        }
+
+        // Validar que la contraseña tenga al menos 6 caracteres
+        String password = new String(psContraseñaRegistro.getPassword());
+        int longitudMinima = 6; // Puedes cambiar este valor a cualquier longitud mínima deseada
+
+        if (password.length() < longitudMinima) {
+            JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos " + longitudMinima + " caracteres");
+            return;
+        }
+
+        // Crear el objeto Usuario con los datos del formulario
+        Usuario usuario = new Usuario(txNombreU.getText(), txApellidoU.getText(), txDniU.getText(),
+                txTelefonoU.getText(), txCorreoU.getText(), txUsuarioRegistro.getText(), password);
+
+        RegistroUsuario dao = new RegistroUsuario();
+
+        // Verificar si el usuario ya existe (puedes añadir este método en RegistroUsuario)
+        if (dao.existeUsuario(usuario.getUsuario())) {
+            JOptionPane.showMessageDialog(null, "El usuario ya existe, elija otro nombre de usuario");
+            return;
+        }
+
+        // Registrar el usuario
+        if (dao.registrarUsuario(usuario)) {
+            JOptionPane.showMessageDialog(null, "Usuario registrado con éxito");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al registrar usuario");
+        }
 
     }//GEN-LAST:event_jBRegistrarUsuarioActionPerformed
 
     private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
-      // Crear instancia de la ventana de login
-    FormLogin login = new FormLogin();
-    
-    // Centrar la ventana de login
-    login.setLocationRelativeTo(null);
-    
-    // Mostrar la ventana de login
-    login.setVisible(true);
-    
-    // Cerrar o esconder la ventana actual de registro
-    this.dispose();  
+        // Crear instancia de la ventana de login
+        FormLogin login = new FormLogin();
+
+        // Centrar la ventana de login
+        login.setLocationRelativeTo(null);
+
+        // Mostrar la ventana de login
+        login.setVisible(true);
+
+        // Cerrar o esconder la ventana actual de registro
+        this.dispose();
     }//GEN-LAST:event_jBCancelarActionPerformed
 
 

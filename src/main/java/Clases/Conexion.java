@@ -7,9 +7,9 @@ import javax.swing.JOptionPane;
 
 public class Conexion {
 
-    private static final String USUARIO = ""; //poner usuario de mysql
-    private static final String CONTRASENA = ""; //poner contraseña de mysql
-    private static final String BD = "finanzas";
+    private static final String USUARIO = "root"; //poner usuario de mysql
+    private static final String CONTRASENA = "root"; //poner contraseña de mysql
+    private static final String BD = "administrador";
     private static final String IP = "localhost";
     private static final String PUERTO = "3306";
 
