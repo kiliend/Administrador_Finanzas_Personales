@@ -6,13 +6,13 @@ package Clases;
 
 public class UsuarioSesion {
 
-    private static String userId;
+    private static int userId;
 
-    public static void setUserId(String id) {
+    public static void setUserId(int id) {
         userId = id;
     }
 
-    public static String getUserId() {
+    public static int getUserId() {
         return userId;
     }
 }
