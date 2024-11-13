@@ -1,8 +1,10 @@
 package JFrames;
 
 import Clases.CLogin;
+import Clases.UsuarioSesion;
 
 import javax.swing.JOptionPane;
+
 public class FormLogin extends javax.swing.JFrame {
 
     public FormLogin() {
@@ -165,31 +167,44 @@ public class FormLogin extends javax.swing.JFrame {
 
     private void jBRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRegistrarActionPerformed
 // Crear instancia de la ventana de registro
-    FormRegistrar registro = new FormRegistrar();
-    
-    // Centrar la ventana de registro
-    registro.setLocationRelativeTo(null);
-    
-    // Mostrar la ventana de registro
-    registro.setVisible(true);
-    
-    // Cerrar o esconder la ventana actual de login
-    this.dispose();  // O puedes usar this.setVisible(false) si no quieres cerrarla completamente
+        FormRegistrar registro = new FormRegistrar();
+
+        // Centrar la ventana de registro
+        registro.setLocationRelativeTo(null);
+
+        // Mostrar la ventana de registro
+        registro.setVisible(true);
+
+        // Cerrar o esconder la ventana actual de login
+        this.dispose();  // O puedes usar this.setVisible(false) si no quieres cerrarla completamente
     }//GEN-LAST:event_jBRegistrarActionPerformed
 
     private void jBIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBIngresarActionPerformed
 
-    String usuario = txUsuario.getText();
-    String contrasena = new String(psContraseña.getPassword());
-    
-    CLogin dao = new CLogin();
-    
-    if (dao.validarUsuario(usuario, contrasena)) {
-        JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
-        // Redirigir a la siguiente pantalla
-    } else {
-        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
-    }
+        String usuario = txUsuario.getText();
+        String contrasena = new String(psContraseña.getPassword());
+
+        CLogin dao = new CLogin();
+        String userId = dao.validarUsuario(usuario, contrasena);
+
+        if (userId != null) {
+            JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
+
+            // Aquí guarda el userId en la sesión, o pásalo a la siguiente pantalla
+            UsuarioSesion.setUserId(userId); // Por ejemplo, en una clase estática UsuarioSesion
+
+            // Redirigir a la siguiente pantalla
+            // Crear instancia de la nueva pantalla (por ejemplo, FormPrincipal)
+            Menu principal = new Menu();
+
+            // Mostrar la nueva pantalla
+            principal.setVisible(true);
+
+            // Cerrar la pantalla de login actual
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+        }
     }//GEN-LAST:event_jBIngresarActionPerformed
 
     /**

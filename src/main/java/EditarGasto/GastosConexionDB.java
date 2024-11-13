@@ -28,8 +28,8 @@ public class GastosConexionDB {
     private static final Logger logger = LoggerFactory.getLogger(GastosConexionDB.class);
 
     // Cambia estos valores según tu configuración
-    private static final String URL_INGRESOS = "jdbc:mysql://localhost:3306/finanzas";
-    private static final String URL_GASTOS = "jdbc:mysql://localhost:3306/gastos";
+    private static final String URL_INGRESOS = "jdbc:mysql://localhost:3306/administrador";
+    private static final String URL_GASTOS = "jdbc:mysql://localhost:3306/administrador";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
