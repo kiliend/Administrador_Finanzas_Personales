@@ -22,7 +22,7 @@ public class CLogin {
     public String validarUsuario(String usuario, String contrasena) {
         Conexion conexion = new Conexion();
         Connection con = conexion.estableceConexion();
-        String sql = "SELECT dni FROM Usuario WHERE usuario = ? AND contrasena = ?";
+        String sql = "SELECT id_usuario FROM Usuario WHERE usuario = ? AND contrasena = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -31,7 +31,7 @@ public class CLogin {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getString("dni"); // Retorna el identificador único (dni en este caso)
+                return rs.getString("id_usuario"); // Retorna el identificador único (id_usuario en este caso)
             } else {
                 return null; // Usuario no encontrado
             }
