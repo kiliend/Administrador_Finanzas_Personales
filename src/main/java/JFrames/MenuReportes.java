@@ -4,17 +4,25 @@
  */
 package JFrames;
 
+import javax.swing.*;
+import Clases.ReporteService;
+
 /**
  *
  * @author Luan Condori
  */
 public class MenuReportes extends javax.swing.JFrame {
-
+private String categoriaSeleccionada;
+private String tiempoSeleccionado;
+private String tipoArchivoSeleccionado;
+private final ReporteService reporteService;
     /**
      * Creates new form MenuReportes
      */
     public MenuReportes() {
+        
         initComponents();
+        reporteService = new ReporteService();
     }
 
     /**
@@ -96,16 +104,14 @@ public class MenuReportes extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCerrarSesionPresupuesto)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(16, 16, 16))))
+                    .addComponent(jLabel1))
+                .addGap(16, 16, 16))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnIngresoReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnGastosReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPresupuesto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnGastosReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPresupuesto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -143,10 +149,20 @@ public class MenuReportes extends javax.swing.JFrame {
         btnGastoCategoria.setBackground(new java.awt.Color(255, 153, 153));
         btnGastoCategoria.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         btnGastoCategoria.setText("Gastos");
+        btnGastoCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGastoCategoriaActionPerformed(evt);
+            }
+        });
 
         btnPresupuestoCategoria.setBackground(new java.awt.Color(51, 153, 255));
         btnPresupuestoCategoria.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         btnPresupuestoCategoria.setText("Presupuestos");
+        btnPresupuestoCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPresupuestoCategoriaActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("---------------------------------------------------------------------------------");
 
@@ -168,14 +184,29 @@ public class MenuReportes extends javax.swing.JFrame {
         btnSemanaTiempo.setBackground(new java.awt.Color(204, 255, 102));
         btnSemanaTiempo.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         btnSemanaTiempo.setText("Semana");
+        btnSemanaTiempo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSemanaTiempoActionPerformed(evt);
+            }
+        });
 
         btnMesTiempo.setBackground(new java.awt.Color(255, 102, 0));
         btnMesTiempo.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         btnMesTiempo.setText("Mes");
+        btnMesTiempo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMesTiempoActionPerformed(evt);
+            }
+        });
 
         btnYearTiempo.setBackground(new java.awt.Color(255, 153, 153));
         btnYearTiempo.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         btnYearTiempo.setText("Año");
+        btnYearTiempo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnYearTiempoActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel7.setText("Seleccione el tipo de archivo");
@@ -192,11 +223,21 @@ public class MenuReportes extends javax.swing.JFrame {
 
         btnCVS.setBackground(new java.awt.Color(102, 255, 153));
         btnCVS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/csv.png"))); // NOI18N
+        btnCVS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCVSActionPerformed(evt);
+            }
+        });
 
         btnDescargar.setBackground(new java.awt.Color(0, 153, 153));
         btnDescargar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         btnDescargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/adjunto-archivo.png"))); // NOI18N
         btnDescargar.setText("Descargar");
+        btnDescargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescargarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -324,7 +365,7 @@ public class MenuReportes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresoReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoReporteActionPerformed
-        // TODO add your handling code here:
+        categoriaSeleccionada = "Ingreso";
     }//GEN-LAST:event_btnIngresoReporteActionPerformed
 
     private void btnCerrarSesionPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionPresupuestoActionPerformed
@@ -336,12 +377,55 @@ public class MenuReportes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresoCategoriaActionPerformed
 
     private void btnDiaTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiaTiempoActionPerformed
-        // TODO add your handling code here:
+        tiempoSeleccionado = "Día";
     }//GEN-LAST:event_btnDiaTiempoActionPerformed
 
     private void btnPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfActionPerformed
-        // TODO add your handling code here:
+        tipoArchivoSeleccionado = "PDF";
     }//GEN-LAST:event_btnPdfActionPerformed
+
+    private void btnGastoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGastoCategoriaActionPerformed
+        categoriaSeleccionada = "Ingreso";
+
+    }//GEN-LAST:event_btnGastoCategoriaActionPerformed
+
+    private void btnPresupuestoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPresupuestoCategoriaActionPerformed
+        categoriaSeleccionada = "Presupuesto";
+    }//GEN-LAST:event_btnPresupuestoCategoriaActionPerformed
+
+    private void btnSemanaTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSemanaTiempoActionPerformed
+         tiempoSeleccionado = "Semana";
+    }//GEN-LAST:event_btnSemanaTiempoActionPerformed
+
+    private void btnMesTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesTiempoActionPerformed
+         tiempoSeleccionado = "Mes";
+    }//GEN-LAST:event_btnMesTiempoActionPerformed
+
+    private void btnYearTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYearTiempoActionPerformed
+         tiempoSeleccionado = "Año";
+    }//GEN-LAST:event_btnYearTiempoActionPerformed
+
+    private void btnCVSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCVSActionPerformed
+        tipoArchivoSeleccionado = "CSV";
+    }//GEN-LAST:event_btnCVSActionPerformed
+
+    private void btnDescargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarActionPerformed
+        if (categoriaSeleccionada == null || tiempoSeleccionado == null || tipoArchivoSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione categoría, tiempo y tipo de archivo para el reporte.");
+            return;
+        }
+        
+        try {
+            if (tipoArchivoSeleccionado.equals("PDF")) {
+                reporteService.generarPDF(categoriaSeleccionada, tiempoSeleccionado);
+            } else if (tipoArchivoSeleccionado.equals("CSV")) {
+                reporteService.generarCSV(categoriaSeleccionada, tiempoSeleccionado);
+            }
+            JOptionPane.showMessageDialog(this, "Reporte generado correctamente en formato " + tipoArchivoSeleccionado);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
+        }  
+    }//GEN-LAST:event_btnDescargarActionPerformed
 
     /**
      * @param args the command line arguments
