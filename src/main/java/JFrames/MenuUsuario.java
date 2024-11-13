@@ -209,6 +209,20 @@ public class MenuUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDatosActionPerformed
+        
+        // Validar que los campos no estén vacíos
+        if (txNombreEditar.getText().isEmpty() || txEmailEditar.getText().isEmpty() || txDNIEditar.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos");
+            return;
+        }
+
+        // Validar formato de correo electrónico
+        String email1 = txEmailEditar.getText();
+        if (!email1.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            JOptionPane.showMessageDialog(null, "Ingrese un correo electrónico válido");
+            return;
+        }
+        
         // obtener los datos de los campos de texto
         String nombre = txNombreEditar.getText();
         String email = txEmailEditar.getText();
