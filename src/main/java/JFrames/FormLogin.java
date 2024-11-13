@@ -190,8 +190,10 @@ public class FormLogin extends javax.swing.JFrame {
         if (userId != null) {
             JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
 
+            //convertir de string a int
+            int id = Integer.parseInt(userId);
             // Aquí guarda el userId en la sesión, o pásalo a la siguiente pantalla
-            UsuarioSesion.setUserId(userId); // Por ejemplo, en una clase estática UsuarioSesion
+            UsuarioSesion.setUserId(id); // Por ejemplo, en una clase estática UsuarioSesion
 
             // Redirigir a la siguiente pantalla
             // Crear instancia de la nueva pantalla (por ejemplo, FormPrincipal)
