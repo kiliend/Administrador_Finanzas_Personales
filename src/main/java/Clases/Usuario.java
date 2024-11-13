@@ -8,6 +8,7 @@ package Clases;
 
 public class Usuario {
 
+    private int idUsuario;
     private String nombre;
     private String apellidos;
     private String dni;
@@ -40,6 +41,14 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
+        /**
+     * obtiene el id del usuario
+     * @return id del usuario
+     */
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+    
     /**
      *obtiene el nombre del usuario 
      * 
@@ -104,6 +113,14 @@ public class Usuario {
         return contrasena;
     }
 
+    /**
+     * establece el id del usuaario 
+     * @param idUsuario 
+     */
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+    
     /**
      * establece el nombre del usuario
      * 
