@@ -12,15 +12,17 @@ import Clases.ReporteService;
  * @author Luan Condori
  */
 public class MenuReportes extends javax.swing.JFrame {
-private String categoriaSeleccionada;
-private String tiempoSeleccionado;
-private String tipoArchivoSeleccionado;
-private final ReporteService reporteService;
+
+    private String categoriaSeleccionada;
+    private String tiempoSeleccionado;
+    private String tipoArchivoSeleccionado;
+    private final ReporteService reporteService;
+
     /**
      * Creates new form MenuReportes
      */
     public MenuReportes() {
-        
+
         initComponents();
         reporteService = new ReporteService();
     }
@@ -369,7 +371,12 @@ private final ReporteService reporteService;
     }//GEN-LAST:event_btnIngresoReporteActionPerformed
 
     private void btnCerrarSesionPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionPresupuestoActionPerformed
-        // TODO add your handling code here:
+
+        Menu IrMenu = new Menu();  //Se cambia el Menu
+
+        // Hacer visible el formulario secundario
+        IrMenu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCerrarSesionPresupuestoActionPerformed
 
     private void btnIngresoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoCategoriaActionPerformed
@@ -394,15 +401,15 @@ private final ReporteService reporteService;
     }//GEN-LAST:event_btnPresupuestoCategoriaActionPerformed
 
     private void btnSemanaTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSemanaTiempoActionPerformed
-         tiempoSeleccionado = "Semana";
+        tiempoSeleccionado = "Semana";
     }//GEN-LAST:event_btnSemanaTiempoActionPerformed
 
     private void btnMesTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesTiempoActionPerformed
-         tiempoSeleccionado = "Mes";
+        tiempoSeleccionado = "Mes";
     }//GEN-LAST:event_btnMesTiempoActionPerformed
 
     private void btnYearTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYearTiempoActionPerformed
-         tiempoSeleccionado = "Año";
+        tiempoSeleccionado = "Año";
     }//GEN-LAST:event_btnYearTiempoActionPerformed
 
     private void btnCVSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCVSActionPerformed
@@ -414,7 +421,7 @@ private final ReporteService reporteService;
             JOptionPane.showMessageDialog(this, "Seleccione categoría, tiempo y tipo de archivo para el reporte.");
             return;
         }
-        
+
         try {
             if (tipoArchivoSeleccionado.equals("PDF")) {
                 reporteService.generarPDF(categoriaSeleccionada, tiempoSeleccionado);
@@ -424,7 +431,7 @@ private final ReporteService reporteService;
             JOptionPane.showMessageDialog(this, "Reporte generado correctamente en formato " + tipoArchivoSeleccionado);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
-        }  
+        }
     }//GEN-LAST:event_btnDescargarActionPerformed
 
     /**

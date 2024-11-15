@@ -10,7 +10,8 @@ package JFrames;
 public class Menu extends javax.swing.JFrame {
 
     /**
-     * Constructor de la clase Menu que inicializa el menú principal de la aplicación.
+     * Constructor de la clase Menu que inicializa el menú principal de la
+     * aplicación.
      */
     public Menu() {
         initComponents();
@@ -29,7 +30,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        btnUsuario = new javax.swing.JButton();
+        Usuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,13 +93,13 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reportes1.png"))); // NOI18N
 
-        btnUsuario.setBackground(new java.awt.Color(0, 204, 255));
-        btnUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ingreso.png"))); // NOI18N
-        btnUsuario.setText("Usuario");
-        btnUsuario.addActionListener(new java.awt.event.ActionListener() {
+        Usuario.setBackground(new java.awt.Color(0, 204, 255));
+        Usuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Usuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ingreso.png"))); // NOI18N
+        Usuario.setText("Usuario");
+        Usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUsuarioActionPerformed(evt);
+                UsuarioActionPerformed(evt);
             }
         });
 
@@ -139,7 +140,7 @@ public class Menu extends javax.swing.JFrame {
                         .addComponent(CerrarSesion))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(btnUsuario)
+                        .addComponent(Usuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -150,7 +151,7 @@ public class Menu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(13, 13, 13)
-                        .addComponent(btnUsuario)
+                        .addComponent(Usuario)
                         .addGap(74, 74, 74))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -188,8 +189,9 @@ public class Menu extends javax.swing.JFrame {
 
     private void CerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarSesionActionPerformed
         // Lógica para cerrar sesión. Se puede implementar la redirección al formulario de login.
-         FormLogin IrLogin = new FormLogin(); // Se cambia el FormLogin
-         IrLogin.setVisible(true);
+        FormLogin IrLogin = new FormLogin(); // Se cambia el FormLogin
+        IrLogin.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_CerrarSesionActionPerformed
 
     private void IngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngresosActionPerformed
@@ -204,6 +206,7 @@ public class Menu extends javax.swing.JFrame {
 
         // Hacer visible el formulario secundario
         IrMenuRegistrarIngresos.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_IngresosActionPerformed
 
     private void GastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GastosActionPerformed
@@ -213,9 +216,10 @@ public class Menu extends javax.swing.JFrame {
          *
          * @param evt el evento de acción generado al presionar el botón
          */
-         MenuGastos IrMenu = new MenuGastos();  //Se cambia el Menu
+        MenuGastos IrMenu = new MenuGastos();  //Se cambia el Menu
         // Hacer visible el formulario secundario
-         IrMenu.setVisible(true);
+        IrMenu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_GastosActionPerformed
 
     private void ObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ObjetivoActionPerformed
@@ -225,6 +229,13 @@ public class Menu extends javax.swing.JFrame {
          *
          * @param evt el evento de acción generado al presionar el botón
          */
+        MenuObjetivos principal = new MenuObjetivos();
+
+        // Mostrar la nueva pantalla
+        principal.setVisible(true);
+
+        // Cerrar la pantalla de login actual
+        this.dispose();
 // TODO add your handling code here:
     }//GEN-LAST:event_ObjetivoActionPerformed
 
@@ -235,12 +246,27 @@ public class Menu extends javax.swing.JFrame {
          *
          * @param evt el evento de acción generado al presionar el botón
          */
-// TODO add your handling code here:
+        MenuReportes principal = new MenuReportes();
+
+        // Mostrar la nueva pantalla
+        principal.setVisible(true);
+
+        // Cerrar la pantalla de login actual
+        this.dispose();
+
     }//GEN-LAST:event_ReportesActionPerformed
 
-    private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnUsuarioActionPerformed
+    private void UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioActionPerformed
+        // Redirigir a la siguiente pantalla
+        // Crear instancia de la nueva pantalla (por ejemplo, FormPrincipal)
+        MenuUsuario principal = new MenuUsuario();
+
+        // Mostrar la nueva pantalla
+        principal.setVisible(true);
+
+        // Cerrar la pantalla de login actual
+        this.dispose();
+    }//GEN-LAST:event_UsuarioActionPerformed
 
     /**
      * Método principal que ejecuta el formulario de Menu.
@@ -292,7 +318,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton Ingresos;
     private javax.swing.JButton Objetivo;
     private javax.swing.JButton Reportes;
-    private javax.swing.JButton btnUsuario;
+    private javax.swing.JButton Usuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

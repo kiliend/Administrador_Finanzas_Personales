@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author Luan Condori
  */
 public class MenuUsuario extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form MenuUsuario
      */
@@ -47,7 +47,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         txEmailEditar = new javax.swing.JTextField();
         txDNIEditar = new javax.swing.JTextField();
         txTelefonoEditar = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        Cancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,11 +98,11 @@ public class MenuUsuario extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Regresar Registros.png"))); // NOI18N
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Regresar Registros.png"))); // NOI18N
+        Cancelar.setText("Cancelar");
+        Cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                CancelarActionPerformed(evt);
             }
         });
 
@@ -142,7 +142,7 @@ public class MenuUsuario extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnEditarDatos)
                                 .addGap(68, 68, 68)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(Cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(44, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -178,7 +178,7 @@ public class MenuUsuario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel13)
                 .addGap(18, 18, 18)
@@ -209,7 +209,7 @@ public class MenuUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDatosActionPerformed
-        
+
         // Validar que los campos no estén vacíos
         if (txNombreEditar.getText().isEmpty() || txEmailEditar.getText().isEmpty() || txDNIEditar.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos");
@@ -222,7 +222,7 @@ public class MenuUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ingrese un correo electrónico válido");
             return;
         }
-        
+
         // obtener los datos de los campos de texto
         String nombre = txNombreEditar.getText();
         String email = txEmailEditar.getText();
@@ -253,12 +253,29 @@ public class MenuUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarDatosActionPerformed
 
     private void btnRegistrarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarCuentaActionPerformed
-        // TODO add your handling code here:
+
+        // Redirigir a la siguiente pantalla
+        // Crear instancia de la nueva pantalla (por ejemplo, FormPrincipal)
+        RegistrarCuentaBancaria principal = new RegistrarCuentaBancaria();
+
+        // Mostrar la nueva pantalla
+        principal.setVisible(true);
+
+        // Cerrar la pantalla de login actual
+        this.dispose();
     }//GEN-LAST:event_btnRegistrarCuentaActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
+        // Redirigir a la siguiente pantalla
+        // Crear instancia de la nueva pantalla (por ejemplo, FormPrincipal)
+        Menu principal = new Menu();
+
+        // Mostrar la nueva pantalla
+        principal.setVisible(true);
+
+        // Cerrar la pantalla de login actual
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_CancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -296,10 +313,10 @@ public class MenuUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Cancelar;
     private javax.swing.JButton btnEditarDatos;
     private javax.swing.JButton btnRegistrarCuenta;
     private javax.swing.JLabel etiquetaNCuenta;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;

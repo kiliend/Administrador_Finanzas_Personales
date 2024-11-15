@@ -39,8 +39,8 @@ public class RegistrarCuentaBancaria extends javax.swing.JFrame {
         txtNumeroTarjeta = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jDateChooserFechaVencimiento = new com.toedter.calendar.JDateChooser();
-        btnAgregar = new javax.swing.JButton();
-        btnRegresar = new javax.swing.JButton();
+        Agregar = new javax.swing.JButton();
+        Regresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,18 +84,23 @@ public class RegistrarCuentaBancaria extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("F. Vencimiento :");
 
-        btnAgregar.setBackground(new java.awt.Color(153, 255, 153));
-        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar.png"))); // NOI18N
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        Agregar.setBackground(new java.awt.Color(153, 255, 153));
+        Agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar.png"))); // NOI18N
+        Agregar.setText("Agregar");
+        Agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                AgregarActionPerformed(evt);
             }
         });
 
-        btnRegresar.setBackground(new java.awt.Color(255, 102, 102));
-        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Regresar Registros.png"))); // NOI18N
-        btnRegresar.setText("Regresar");
+        Regresar.setBackground(new java.awt.Color(255, 102, 102));
+        Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Regresar Registros.png"))); // NOI18N
+        Regresar.setText("Regresar");
+        Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -130,9 +135,9 @@ public class RegistrarCuentaBancaria extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(btnAgregar)
+                .addComponent(Agregar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnRegresar)
+                .addComponent(Regresar)
                 .addGap(22, 22, 22))
         );
         jPanel2Layout.setVerticalGroup(
@@ -160,8 +165,8 @@ public class RegistrarCuentaBancaria extends javax.swing.JFrame {
                     .addComponent(jDateChooserFechaVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
-                    .addComponent(btnRegresar))
+                    .addComponent(Agregar)
+                    .addComponent(Regresar))
                 .addGap(43, 43, 43))
         );
 
@@ -184,9 +189,20 @@ public class RegistrarCuentaBancaria extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+    private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    }//GEN-LAST:event_AgregarActionPerformed
+
+    private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed
+
+        MenuUsuario principal = new MenuUsuario();
+
+        // Mostrar la nueva pantalla
+        principal.setVisible(true);
+
+        // Cerrar la pantalla de login actual
+        this.dispose();
+    }//GEN-LAST:event_RegresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,8 +240,8 @@ public class RegistrarCuentaBancaria extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnRegresar;
+    private javax.swing.JButton Agregar;
+    private javax.swing.JButton Regresar;
     private javax.swing.JComboBox<String> comboBoxBancos;
     private com.toedter.calendar.JDateChooser jDateChooserFechaVencimiento;
     private javax.swing.JLabel jLabel1;

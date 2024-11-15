@@ -344,6 +344,7 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
 
         // Hacer visible el formulario secundario
         IrMenu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_RetrocederActionPerformed
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed

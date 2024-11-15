@@ -251,9 +251,10 @@ public class MenuGastos extends javax.swing.JFrame {
          *
          * @param evt el evento de acción generado por el botón "Cerrar Sesión"
          */
-         Menu IrMenu = new Menu();  //Se cambia el Menu
+        Menu IrMenu = new Menu();  //Se cambia el Menu
         // Hacer visible el formulario secundario
-         IrMenu.setVisible(true);
+        IrMenu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_CerrarSesionActionPerformed
 
     private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
