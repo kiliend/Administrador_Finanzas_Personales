@@ -15,4 +15,13 @@ public class UsuarioSesion {
     public static int getUserId() {
         return userId;
     }
+    private static String numeroCuenta;
+
+    public static String getNumeroCuenta() {
+        return numeroCuenta;
+    }
+
+    public static void setNumeroCuenta(String numeroCuenta) {
+        UsuarioSesion.numeroCuenta = numeroCuenta;
+    }
 }
