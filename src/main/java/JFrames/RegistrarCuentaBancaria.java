@@ -1,8 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package JFrames;
+
+import Clases.UsuarioSesion;
+import RegistrarCuenta.CuentaBancaria;
+import RegistrarCuenta.RegistroCuentaBancaria;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -70,7 +71,7 @@ public class RegistrarCuentaBancaria extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Banco :");
 
-        comboBoxBancos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...." }));
+        comboBoxBancos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BCP", "BBVA", "Interbank", "Scotiabank Perú", "Banco de Comercio", "Banco Ripley", "Banco Pichincha", "Banco de la Nación" }));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Titular :");
@@ -190,23 +191,88 @@ public class RegistrarCuentaBancaria extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
-        // TODO add your handling code here:
+
+        // Validar que los campos no estén vacíos
+        if (txtTitular.getText().isEmpty()
+                || txtDni.getText().isEmpty()
+                || txtNumeroTarjeta.getText().isEmpty()
+                || comboBoxBancos.getSelectedItem() == null
+                || jDateChooserFechaVencimiento.getDate() == null) {
+
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+            return;
+        }
+
+        // Validar formato del DNI (8 dígitos)
+        String dni = txtDni.getText();
+        if (!dni.matches("\\d{8}")) {
+            JOptionPane.showMessageDialog(this, "El DNI debe tener 8 dígitos.");
+            return;
+        }
+
+        // Validar formato del número de tarjeta (16 dígitos)
+        String numeroTarjeta = txtNumeroTarjeta.getText();
+        if (!numeroTarjeta.matches("\\d{16}")) {
+            JOptionPane.showMessageDialog(this, "El número de tarjeta debe tener 16 dígitos.");
+            return;
+        }
+
+        // Obtener los valores del formulario
+        String titular = txtTitular.getText();
+        String banco = comboBoxBancos.getSelectedItem().toString();
+        java.util.Date fechaVencimiento = jDateChooserFechaVencimiento.getDate();
+
+        // Crear un objeto CuentaBancaria
+        CuentaBancaria cuenta = new CuentaBancaria(titular, dni, numeroTarjeta, banco, fechaVencimiento);
+
+        // Registrar la cuenta en la base de datos
+        RegistroCuentaBancaria registro = new RegistroCuentaBancaria();
+        boolean registroExitoso = registro.registrarCuenta(cuenta);
+
+        // Mostrar mensaje de éxito o error
+        if (registroExitoso) {
+            JOptionPane.showMessageDialog(this, "Cuenta bancaria registrada correctamente.");
+            limpiarFormulario();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar la cuenta bancaria.");
+        }
     }//GEN-LAST:event_AgregarActionPerformed
 
     private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed
 
-        MenuUsuario principal = new MenuUsuario();
+// Obtener el número de tarjeta ingresado
+        String numeroTarjeta = txtNumeroTarjeta.getText();
 
-        // Mostrar la nueva pantalla
-        principal.setVisible(true);
+        // Verifica si el campo está vacío
+        if (numeroTarjeta.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un número de tarjeta válido.");
+            return;
+        }
+        // Guardar el número de tarjeta en la sesión
+        UsuarioSesion.setNumeroCuenta(numeroTarjeta);
 
-        // Cerrar la pantalla de login actual
+        // Limpiar el formulario después de capturar los datos
+        limpiarFormulario();
+
+        // Crear una instancia de MenuUsuario
+        MenuUsuario menuUsuario = new MenuUsuario();
+
+        // Pasar el número de tarjeta a MenuUsuario
+        menuUsuario.setNumeroTarjeta(numeroTarjeta);
+
+        // Mostrar la pantalla de MenuUsuario
+        menuUsuario.setVisible(true);
+
+        // Cerrar la pantalla actual
         this.dispose();
     }//GEN-LAST:event_RegresarActionPerformed
+    private void limpiarFormulario() {
+        txtTitular.setText("");
+        txtDni.setText("");
+        comboBoxBancos.setSelectedIndex(0); // Selecciona el primer elemento
+        jDateChooserFechaVencimiento.setDate(null); // Limpia la fecha seleccionada
+    }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
