@@ -12,15 +12,17 @@ import Clases.ReporteService;
  * @author Luan Condori
  */
 public class MenuReportes extends javax.swing.JFrame {
-private String categoriaSeleccionada;
-private String tiempoSeleccionado;
-private String tipoArchivoSeleccionado;
-private final ReporteService reporteService;
+
+    private String categoriaSeleccionada;
+    private String tiempoSeleccionado;
+    private String tipoArchivoSeleccionado;
+    private final ReporteService reporteService;
+
     /**
      * Creates new form MenuReportes
      */
     public MenuReportes() {
-        
+
         initComponents();
         reporteService = new ReporteService();
     }
@@ -365,15 +367,20 @@ private final ReporteService reporteService;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresoReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoReporteActionPerformed
-         categoriaSeleccionada = "ingreso";
+        categoriaSeleccionada = "Ingreso";
     }//GEN-LAST:event_btnIngresoReporteActionPerformed
 
     private void btnCerrarSesionPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionPresupuestoActionPerformed
-        // TODO add your handling code here:
+
+        Menu IrMenu = new Menu();  //Se cambia el Menu
+
+        // Hacer visible el formulario secundario
+        IrMenu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCerrarSesionPresupuestoActionPerformed
 
     private void btnIngresoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoCategoriaActionPerformed
-        // TODO add your handling code here:
+        categoriaSeleccionada = "ingreso";
     }//GEN-LAST:event_btnIngresoCategoriaActionPerformed
 
     private void btnDiaTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiaTiempoActionPerformed
@@ -385,8 +392,7 @@ private final ReporteService reporteService;
     }//GEN-LAST:event_btnPdfActionPerformed
 
     private void btnGastoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGastoCategoriaActionPerformed
-         categoriaSeleccionada = "gasto";
-
+        categoriaSeleccionada = "gasto";
     }//GEN-LAST:event_btnGastoCategoriaActionPerformed
 
     private void btnPresupuestoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPresupuestoCategoriaActionPerformed
@@ -394,11 +400,11 @@ private final ReporteService reporteService;
     }//GEN-LAST:event_btnPresupuestoCategoriaActionPerformed
 
     private void btnSemanaTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSemanaTiempoActionPerformed
-         tiempoSeleccionado = "semana";
+        tiempoSeleccionado = "semana";
     }//GEN-LAST:event_btnSemanaTiempoActionPerformed
 
     private void btnMesTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesTiempoActionPerformed
-         tiempoSeleccionado = "mes";
+        tiempoSeleccionado = "mes";
     }//GEN-LAST:event_btnMesTiempoActionPerformed
 
     private void btnYearTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYearTiempoActionPerformed
@@ -410,7 +416,7 @@ private final ReporteService reporteService;
     }//GEN-LAST:event_btnCVSActionPerformed
 
     private void btnDescargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarActionPerformed
-       // Validar si los parámetros seleccionados son correctos
+  // Validar si los parámetros seleccionados son correctos
     if (categoriaSeleccionada == null || categoriaSeleccionada.trim().isEmpty() ||
         tiempoSeleccionado == null || tiempoSeleccionado.trim().isEmpty() ||
         tipoArchivoSeleccionado == null || tipoArchivoSeleccionado.trim().isEmpty()) {
@@ -468,6 +474,7 @@ private final ReporteService reporteService;
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MenuReportes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

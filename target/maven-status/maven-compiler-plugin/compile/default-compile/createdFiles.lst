@@ -7,6 +7,7 @@ JFrames\MenuRegistrarIngresos$2.class
 JFrames\MenuReportes$12.class
 Clases\User.class
 JFrames\Menu.class
+RegistrarCuenta\RegistroCuentaBancaria.class
 JFrames\RegistrarIngreso$4.class
 JFrames\MenuObjetivos$4.class
 JFrames\MenuRegistrarIngresos$5.class
@@ -32,6 +33,7 @@ JFrames\Registro_Objetivo.class
 JFrames\Menu$1.class
 JFrames\EstablecerPresupuesto$1.class
 JFrames\MenuUsuario$1.class
+RegistrarCuenta\CuentaBancaria.class
 JFrames\RegistrarGastos$3.class
 ClaseDAO\ObjetivoDAO.class
 JFrames\MenuGastos.class
@@ -49,8 +51,10 @@ JFrames\RegistrarIngreso$3.class
 Clases\CLogin.class
 RegistrarIngreso\GestorFinanzas.class
 Clases\Ingreso.class
+RegistrarCuenta\ConexionDB.class
 JFrames\RegistrarCuentaBancaria.class
 JFrames\EstablecerPresupuesto$3.class
+JFrames\RegistrarCuentaBancaria$3.class
 JFrames\Menu$6.class
 ClaseDAO\CategoriaGastoDAO.class
 Clases\Conexion.class
@@ -89,6 +93,10 @@ JFrames\RegistrarIngreso$2.class
 JFrames\MenuGastos$4.class
 ConexionBD\ConexionDB.class
 JFrames\MenuUsuario$4.class
+<<<<<<< HEAD
+=======
+RegistrarCuenta\UsuarioSesion.class
+>>>>>>> 59d9c4f0364dac2edf9e0d041ca3be27ae1c1d57
 JFrames\MenuRegistrarIngresos$3.class
 JFrames\RegistrarCuentaBancaria$2.class
 JFrames\MenuUsuario.class

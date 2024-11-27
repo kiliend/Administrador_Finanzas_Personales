@@ -241,14 +241,19 @@ public class MenuObjetivos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGastoPresupuestoActionPerformed
 
     private void btnCerrarSesionPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionPresupuestoActionPerformed
-        // TODO add your handling code here:
+
+        Menu IrMenu = new Menu();  //Se cambia el Menu
+
+        // Hacer visible el formulario secundario
+        IrMenu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCerrarSesionPresupuestoActionPerformed
 
     private void btnAgregarPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPresupuestoActionPerformed
         Registro_Objetivo RegistroO = new Registro_Objetivo();
 
         // Hacer visible el formulario secundario
-        RegistroO.setVisible(true);  
+        RegistroO.setVisible(true);
     }//GEN-LAST:event_btnAgregarPresupuestoActionPerformed
 
     /**
