@@ -21,7 +21,7 @@ import java.sql.SQLException;
  */
 public class ConexionDB {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/administrador";
+    private static final String URL = "jdbc:mysql://localhost:3306/finanzaspersonales";
     private static final String USUARIO = "root";
     private static final String CONTRASENA = "root";
 

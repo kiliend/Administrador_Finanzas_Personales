@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class IngresoConexionDB {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/administrador"; // Cambia "finanzas" por el nombre de tu base de datos
+    private static final String URL = "jdbc:mysql://localhost:3306/finanzaspersonales"; // Cambia "finanzas" por el nombre de tu base de datos
     private static final String USER = "root"; // Cambia según tu configuración
     private static final String PASSWORD = "root"; // Cambia según tu configuración
 

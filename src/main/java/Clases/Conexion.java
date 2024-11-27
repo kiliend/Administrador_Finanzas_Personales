@@ -9,7 +9,7 @@ public class Conexion {
 
     private static final String USUARIO = "root"; //poner usuario de mysql
     private static final String CONTRASENA = "root"; //poner contraseña de mysql
-    private static final String BD = "administrador";
+    private static final String BD = "finanzaspersonales";
     private static final String IP = "localhost";
     private static final String PUERTO = "3306";
 

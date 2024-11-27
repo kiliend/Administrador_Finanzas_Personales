@@ -365,7 +365,7 @@ private final ReporteService reporteService;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresoReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoReporteActionPerformed
-        categoriaSeleccionada = "Ingreso";
+         categoriaSeleccionada = "ingreso";
     }//GEN-LAST:event_btnIngresoReporteActionPerformed
 
     private void btnCerrarSesionPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionPresupuestoActionPerformed
@@ -377,7 +377,7 @@ private final ReporteService reporteService;
     }//GEN-LAST:event_btnIngresoCategoriaActionPerformed
 
     private void btnDiaTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiaTiempoActionPerformed
-        tiempoSeleccionado = "Día";
+        tiempoSeleccionado = "dia";
     }//GEN-LAST:event_btnDiaTiempoActionPerformed
 
     private void btnPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfActionPerformed
@@ -385,24 +385,24 @@ private final ReporteService reporteService;
     }//GEN-LAST:event_btnPdfActionPerformed
 
     private void btnGastoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGastoCategoriaActionPerformed
-        categoriaSeleccionada = "Ingreso";
+         categoriaSeleccionada = "gasto";
 
     }//GEN-LAST:event_btnGastoCategoriaActionPerformed
 
     private void btnPresupuestoCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPresupuestoCategoriaActionPerformed
-        categoriaSeleccionada = "Presupuesto";
+        categoriaSeleccionada = "objetivo";
     }//GEN-LAST:event_btnPresupuestoCategoriaActionPerformed
 
     private void btnSemanaTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSemanaTiempoActionPerformed
-         tiempoSeleccionado = "Semana";
+         tiempoSeleccionado = "semana";
     }//GEN-LAST:event_btnSemanaTiempoActionPerformed
 
     private void btnMesTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesTiempoActionPerformed
-         tiempoSeleccionado = "Mes";
+         tiempoSeleccionado = "mes";
     }//GEN-LAST:event_btnMesTiempoActionPerformed
 
     private void btnYearTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYearTiempoActionPerformed
-         tiempoSeleccionado = "Año";
+        tiempoSeleccionado = "año";
     }//GEN-LAST:event_btnYearTiempoActionPerformed
 
     private void btnCVSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCVSActionPerformed
@@ -410,21 +410,37 @@ private final ReporteService reporteService;
     }//GEN-LAST:event_btnCVSActionPerformed
 
     private void btnDescargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarActionPerformed
-        if (categoriaSeleccionada == null || tiempoSeleccionado == null || tipoArchivoSeleccionado == null) {
-            JOptionPane.showMessageDialog(this, "Seleccione categoría, tiempo y tipo de archivo para el reporte.");
-            return;
-        }
-        
-        try {
-            if (tipoArchivoSeleccionado.equals("PDF")) {
+       // Validar si los parámetros seleccionados son correctos
+    if (categoriaSeleccionada == null || categoriaSeleccionada.trim().isEmpty() ||
+        tiempoSeleccionado == null || tiempoSeleccionado.trim().isEmpty() ||
+        tipoArchivoSeleccionado == null || tipoArchivoSeleccionado.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Seleccione categoría, tiempo y tipo de archivo para el reporte.");
+        return;
+    }
+
+    // Deshabilitar el botón para evitar clics múltiples durante la generación
+    btnDescargar.setEnabled(false);
+
+    try {
+        // Generar el reporte según el tipo de archivo seleccionado
+        switch (tipoArchivoSeleccionado) {
+            case "PDF":
                 reporteService.generarPDF(categoriaSeleccionada, tiempoSeleccionado);
-            } else if (tipoArchivoSeleccionado.equals("CSV")) {
+                break;
+            case "CSV":
                 reporteService.generarCSV(categoriaSeleccionada, tiempoSeleccionado);
-            }
-            JOptionPane.showMessageDialog(this, "Reporte generado correctamente en formato " + tipoArchivoSeleccionado);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
-        }  
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de archivo no soportado: " + tipoArchivoSeleccionado);
+        }
+        JOptionPane.showMessageDialog(this, "Reporte generado correctamente en formato " + tipoArchivoSeleccionado);
+    } catch (Exception e) {
+        e.printStackTrace();  // Esto es útil para depuración
+        JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
+    } finally {
+        // Habilitar el botón de nuevo
+        btnDescargar.setEnabled(true);
+    }
     }//GEN-LAST:event_btnDescargarActionPerformed
 
     /**
