@@ -1,24 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package RegistrarCuenta;
 
+import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import javax.swing.JOptionPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author familia4
+ * @author Rodney Piers Salazar Arapa
  */
 public class RegistroCuentaBancaria {
 
+    private static final Logger logger = LoggerFactory.getLogger(RegistroCuentaBancaria.class);
+
     public boolean registrarCuenta(CuentaBancaria cuenta) {
         try {
+            logger.info("Iniciando el registro de la cuenta: {}", cuenta.getNumeroTarjeta());
+
             // Conexión a la base de datos
-            ConexionDB conexion = new ConexionDB();
+            RegistrarCuentaConexionDB conexion = new RegistrarCuentaConexionDB();
             Connection conn = conexion.getConnection();
 
             // Verificar si la tarjeta ya existe
@@ -27,6 +29,7 @@ public class RegistroCuentaBancaria {
             checkStmt.setString(1, cuenta.getNumeroTarjeta());
             ResultSet rs = checkStmt.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
+                logger.warn("La tarjeta {} ya está registrada.", cuenta.getNumeroTarjeta());
                 JOptionPane.showMessageDialog(null, "El número de tarjeta ya está registrado.");
                 conn.close();
                 return false;
@@ -43,8 +46,16 @@ public class RegistroCuentaBancaria {
 
             int rowsInserted = stmt.executeUpdate();
             conn.close();
+
+            if (rowsInserted > 0) {
+                logger.info("Cuenta registrada exitosamente {}", cuenta.getNumeroTarjeta());
+            } else {
+                logger.error("No se pudo registrar la cuenta para la tarjeta: {}", cuenta.getNumeroTarjeta());
+            }
+
             return rowsInserted > 0;
         } catch (Exception e) {
+            logger.error("Error al registrar la cuenta bancaria", e);
             e.printStackTrace();
             return false;
         }

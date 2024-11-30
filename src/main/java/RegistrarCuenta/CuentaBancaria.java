@@ -1,7 +1,10 @@
 package RegistrarCuenta;
 
 import java.util.Date;
-
+/**
+ *
+ * @author Rodney Piers Salazar Arapa
+ */
 public class CuentaBancaria {
 
     private String titular;

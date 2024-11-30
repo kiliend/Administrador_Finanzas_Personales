@@ -216,5 +216,15 @@ public class GestorFinanzas {
             System.out.println("ID: " + ingreso[0] + ", Monto: " + ingreso[1] + ", Categoria: " + ingreso[2] + ", Fecha: " + ingreso[3]);
         }
     }
+   // public void eliminarTodosLosIngresos() {
+   // String sql = "DELETE FROM ingresos";
+   // try (Connection conn = IngresoConexionDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+   //     pstmt.executeUpdate();
+     //   logger.info("Todos los ingresos han sido eliminados de la base de datos.");
+   // } catch (SQLException e) {
+     //   logger.error("Error al limpiar la tabla de ingresos: {}", e.getMessage(), e);
+   // }
+//}
+
 
 }
