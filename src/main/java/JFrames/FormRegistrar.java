@@ -6,7 +6,6 @@ package JFrames;
 
 import Clases.RegistroUsuario;
 import Clases.Usuario;
-import java.awt.FlowLayout;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,8 +19,7 @@ public class FormRegistrar extends javax.swing.JFrame {
      */
     public FormRegistrar() {
         initComponents();
-        setSize(545, 489);
-        this.setLayout(new FlowLayout());
+        setSize(436, 490);
     }
 
     /**
