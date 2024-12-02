@@ -48,4 +48,36 @@ public class CLogin {
             return null;
         } 
     }
+    
+     /**
+     * metodo para obtener los datos que seran mostrados en el menuUsuario
+     * @param userId 
+     */
+    public static void obtenerDetallesUsuario(int userId) {
+        Conexion conexion = new Conexion();
+        Connection con = conexion.estableceConexion();
+        String sql = "SELECT nombre, dni, correo_electronico, telefono FROM Usuario WHERE id_usuario = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                // Setear los valores en la clase UsuarioSesion
+                UsuarioSesion.setNombre(rs.getString("nombre"));
+                UsuarioSesion.setDni(rs.getString("dni"));
+                UsuarioSesion.setCorreoElectronico(rs.getString("correo_electronico"));
+                UsuarioSesion.setTelefono(rs.getString("telefono"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
