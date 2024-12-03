@@ -6,7 +6,6 @@ package JFrames;
 
 import ClaseDAOImpl.ObjetivoDAOImpl;
 import Clases.Objetivo;
-import Clases.Usuario;
 import Clases.UsuarioSesion;
 import ConexionBD.ConexionDB;
 import java.sql.Connection;
@@ -105,6 +104,11 @@ public class Registro_Objetivo extends javax.swing.JFrame {
         btnRegresarPresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         btnRegresarPresupuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Regresar Registros.png"))); // NOI18N
         btnRegresarPresupuesto.setText("Regresar");
+        btnRegresarPresupuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarPresupuestoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -253,7 +257,7 @@ public class Registro_Objetivo extends javax.swing.JFrame {
 
     private void btnRegresarPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarPresupuestoActionPerformed
         MenuObjetivos VolverMenu = new MenuObjetivos();
-
+        this.dispose();
         // Hacer visible el formulario secundario
         VolverMenu.setVisible(true);    }//GEN-LAST:event_btnRegresarPresupuestoActionPerformed
 

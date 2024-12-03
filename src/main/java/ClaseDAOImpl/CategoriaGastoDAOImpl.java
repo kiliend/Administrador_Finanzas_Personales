@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import ConexionBD.ConexionDB;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementación de la interfaz {@link CategoriaGastoDAO} para acceder y 
@@ -26,6 +28,8 @@ import ConexionBD.ConexionDB;
 public class CategoriaGastoDAOImpl implements CategoriaGastoDAO 
 {
     private Connection conexion;
+    private static final Logger logger = Logger.getLogger(CategoriaGastoDAOImpl.class.getName());
+
     
     public CategoriaGastoDAOImpl(Connection conexion) {
         this.conexion = conexion;
@@ -40,7 +44,7 @@ public class CategoriaGastoDAOImpl implements CategoriaGastoDAO
      * @param asignacion la nueva asignación de la categoría.
      */
     public void updateCategoriaGasto(String nombre, double asignacion) {
-        String sql = "UPDATE CategoriaGasto SET asignacion = ? WHERE nombre = ?";
+        String sql = "UPDATE categoria_gasto SET asignacion = ? WHERE nombre = ?";
 
         try (Connection conn = ConexionDB.getConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -62,15 +66,36 @@ public class CategoriaGastoDAOImpl implements CategoriaGastoDAO
      */
     @Override
     public void actualizar(CategoriaGasto categoriaGasto) {
-        String sql = "UPDATE CategoriaGasto SET nombre = ?, asignacion = ? WHERE id_categoria = ?";
-        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
-            stmt.setString(1, categoriaGasto.getNombre());
-            stmt.setDouble(2, categoriaGasto.getAsignacion());
-            stmt.setInt(3, categoriaGasto.getIdCategoria());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-}
+    // Nombre de la tabla corregido
+    String sql = "UPDATE categoria_gasto SET nombre = ?, asignacion = ? WHERE id_categoria = ?";
+    
+    // Crear un logger para registrar los eventos
+    Logger logger = Logger.getLogger(CategoriaGastoDAOImpl.class.getName());
+    
+    // Registrar el inicio de la actualización
+    logger.info("Iniciando actualización para la categoría de gasto con ID: " + categoriaGasto.getIdCategoria());
+    
+    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+        // Establecer los parámetros de la consulta
+        stmt.setString(1, categoriaGasto.getNombre());
+        stmt.setDouble(2, categoriaGasto.getAsignacion());
+        stmt.setInt(3, categoriaGasto.getIdCategoria());
+        
+        // Ejecutar la actualización
+        int rowsAffected = stmt.executeUpdate();
+        
+        // Registrar el resultado de la actualización
+        if (rowsAffected > 0) {
+            // Si se actualizó correctamente
+            logger.info("Categoría de gasto con ID " + categoriaGasto.getIdCategoria() + " actualizada exitosamente.");
+        } else {
+            // Si no se actualizó ninguna fila
+            logger.warning("No se encontró la categoría de gasto con ID " + categoriaGasto.getIdCategoria() + " para actualizar.");
+        }
+    } catch (SQLException e) {
+        // Registrar el error en caso de fallo
+        logger.log(Level.SEVERE, "Error al actualizar la categoría de gasto con ID: " + categoriaGasto.getIdCategoria(), e);
+    }
     }
 
      /**
@@ -82,24 +107,38 @@ public class CategoriaGastoDAOImpl implements CategoriaGastoDAO
      */
     @Override
     public CategoriaGasto obtenerPorId(int idCategoria) {
-        String sql = "SELECT * FROM CategoriaGasto WHERE id_categoria = ?";
-        CategoriaGasto categoriaGasto = null;
-        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
-            stmt.setInt(1, idCategoria);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                categoriaGasto = new CategoriaGasto(
-                    rs.getInt("id_categoria"),
-                    rs.getString("nombre"),
-                    rs.getDouble("asignacion")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    // Consulta SQL para obtener la categoría de gasto por ID
+    String sql = "SELECT * FROM categoria_gasto WHERE id_categoria = ?";
+    CategoriaGasto categoriaGasto = null;
+    
+    // Registrar el inicio de la consulta
+    logger.info("Iniciando consulta para obtener la categoría de gasto con ID: " + idCategoria);
+    
+    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+        stmt.setInt(1, idCategoria);
+        ResultSet rs = stmt.executeQuery();
+        
+        // Verificar si se encontró un registro
+        if (rs.next()) {
+            categoriaGasto = new CategoriaGasto(
+                rs.getInt("id_categoria"),
+                rs.getString("nombre"),
+                rs.getDouble("asignacion")
+            );
+            
+            // Log de éxito cuando se obtiene la categoría de gasto
+            logger.info("Categoría de gasto encontrada: " + categoriaGasto.toString());
+        } else {
+            // Log si no se encuentra el registro
+            logger.warning("No se encontró la categoría de gasto con ID: " + idCategoria);
         }
-        return categoriaGasto;
+    } catch (SQLException e) {
+        // Log del error en caso de fallo
+        logger.log(Level.SEVERE, "Error al obtener la categoría de gasto con ID: " + idCategoria, e);
     }
-
+    
+    return categoriaGasto;
+}
    /**
      * Obtiene todas las categorías de gasto almacenadas en la base de datos.
      * 
@@ -108,7 +147,7 @@ public class CategoriaGastoDAOImpl implements CategoriaGastoDAO
      */
     @Override
     public List<CategoriaGasto> obtenerTodos() {
-        String sql = "SELECT * FROM CategoriaGasto";
+        String sql = "SELECT * FROM categoria_gasto";
         List<CategoriaGasto> categorias = new ArrayList<>();
         try (Statement stmt = conexion.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);

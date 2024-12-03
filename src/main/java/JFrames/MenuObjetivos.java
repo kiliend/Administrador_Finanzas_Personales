@@ -4,21 +4,24 @@
  */
 package JFrames;
 
-import ClaseDAO.ObjetivoDAO;
 import ClaseDAOImpl.ObjetivoDAOImpl;
 import Clases.Objetivo;
 import Clases.UsuarioSesion;
 import ConexionBD.ConexionDB;
+import static com.mysql.cj.conf.PropertyKey.logger;
 import java.sql.Connection;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Luan Condori
  */
 public class MenuObjetivos extends javax.swing.JFrame {
+    private static final Logger logger = Logger.getLogger(MenuObjetivos.class.getName());
     private ObjetivoDAOImpl objetivoDAO;
     private Connection conexion;
     /**
@@ -31,22 +34,24 @@ public class MenuObjetivos extends javax.swing.JFrame {
         cargarObjetivos(); // Cargar los objetivos cuando inicie el formulario
        
     }
-     private void cargarObjetivos() {
-         
-        int userId = UsuarioSesion.getUserId(); // Obtener el ID del usuario desde la sesión
-        if (userId != 0) {
-            // Realiza una consulta para cargar los objetivos del usuario
-            List<Objetivo> objetivos = objetivoDAO.obtenerPorUsuario(userId);
-            
-            DefaultTableModel model = (DefaultTableModel) tblObjetivos.getModel();
-            model.setRowCount(0); // Limpiar la tabla antes de agregar los nuevos datos
-            for (Objetivo objetivo : objetivos) {
-                model.addRow(new Object[] { objetivo.getIdObjetivo(),objetivo.getDescripcion(),objetivo.getFechaInicio(),objetivo.getFechaFin(),objetivo.getCantidad() });
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Usuario no registrado", "Error", JOptionPane.ERROR_MESSAGE);
+private void cargarObjetivos() {
+    int userId = UsuarioSesion.getUserId(); // Obtener el ID del usuario desde la sesión
+    if (userId != 0) {
+        // Realiza una consulta para cargar los objetivos del usuario
+        List<Objetivo> objetivos = objetivoDAO.obtenerPorUsuario(userId);
+        
+        DefaultTableModel model = (DefaultTableModel) tblObjetivos.getModel();
+        model.setRowCount(0); // Limpiar la tabla antes de agregar los nuevos datos
+        for (Objetivo objetivo : objetivos) {
+            model.addRow(new Object[] { objetivo.getIdObjetivo(), objetivo.getDescripcion(), objetivo.getFechaInicio(), objetivo.getFechaFin(), objetivo.getCantidad() });
         }
+
+        // Hacer la tabla editable
+        tblObjetivos.setModel(model);
+    } else {
+        JOptionPane.showMessageDialog(this, "Usuario no registrado", "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,6 +90,11 @@ public class MenuObjetivos extends javax.swing.JFrame {
         btnIngresoPresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnIngresoPresupuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ingreso.png"))); // NOI18N
         btnIngresoPresupuesto.setText("Ingreso");
+        btnIngresoPresupuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresoPresupuestoActionPerformed(evt);
+            }
+        });
 
         btnGastoPresupuesto.setBackground(new java.awt.Color(102, 255, 255));
         btnGastoPresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -163,11 +173,21 @@ public class MenuObjetivos extends javax.swing.JFrame {
         btnEditarPresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnEditarPresupuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar.png"))); // NOI18N
         btnEditarPresupuesto.setText("EDITAR");
+        btnEditarPresupuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarPresupuestoActionPerformed(evt);
+            }
+        });
 
         btnEliminarPresupuesto.setBackground(new java.awt.Color(102, 255, 204));
         btnEliminarPresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnEliminarPresupuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/borrar.png"))); // NOI18N
         btnEliminarPresupuesto.setText("ELIMINAR");
+        btnEliminarPresupuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarPresupuestoActionPerformed(evt);
+            }
+        });
 
         btnAgregarPresupuesto.setBackground(new java.awt.Color(102, 255, 204));
         btnAgregarPresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -192,6 +212,9 @@ public class MenuObjetivos extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblObjetivos);
 
+        btnPresupuestos.setBackground(new java.awt.Color(255, 255, 0));
+        btnPresupuestos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        btnPresupuestos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/grafico-circular.png"))); // NOI18N
         btnPresupuestos.setText("Presupuesto");
         btnPresupuestos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,22 +236,22 @@ public class MenuObjetivos extends javax.swing.JFrame {
                         .addComponent(btnPresupuestos)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
-                        .addComponent(jLabel3)
-                        .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarPresupuesto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addComponent(btnEliminarPresupuesto)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnAgregarPresupuesto)
+                        .addGap(46, 46, 46))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(84, Short.MAX_VALUE))
+                                .addGap(117, 117, 117)
+                                .addComponent(jLabel3))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btnEditarPresupuesto)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEliminarPresupuesto)
-                                .addGap(29, 29, 29)
-                                .addComponent(btnAgregarPresupuesto)
-                                .addGap(46, 46, 46))))))
+                                .addGap(37, 37, 37)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,7 +298,10 @@ public class MenuObjetivos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGastoPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGastoPresupuestoActionPerformed
-        // TODO add your handling code here:
+      MenuGastos AbrirGastos = new MenuGastos();
+     AbrirGastos.setVisible(true);
+     this.dispose();
+// TODO add your handling code here:
     }//GEN-LAST:event_btnGastoPresupuestoActionPerformed
 
     private void btnCerrarSesionPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionPresupuestoActionPerformed
@@ -292,6 +318,7 @@ public class MenuObjetivos extends javax.swing.JFrame {
 
         // Hacer visible el formulario secundario
         RegistroO.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnAgregarPresupuestoActionPerformed
 
     private void btnPresupuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPresupuestosActionPerformed
@@ -299,6 +326,128 @@ EstablecerPresupuesto Presupuesto = new EstablecerPresupuesto  ();
 Presupuesto.setVisible(true);
 // TODO add your handling code here:
     }//GEN-LAST:event_btnPresupuestosActionPerformed
+
+    private void btnIngresoPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoPresupuestoActionPerformed
+     MenuRegistrarIngresos AbrirIngresos = new MenuRegistrarIngresos();
+     AbrirIngresos.setVisible(true);
+    this.dispose();
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnIngresoPresupuestoActionPerformed
+
+    private void btnEliminarPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPresupuestoActionPerformed
+    int selectedRow = tblObjetivos.getSelectedRow();
+    
+    // Verificar si se seleccionó un objetivo
+    if (selectedRow != -1) {
+        int idObjetivo = (int) tblObjetivos.getValueAt(selectedRow, 0);
+        Objetivo objetivo = objetivoDAO.obtenerPorId(idObjetivo); // Obtener el objetivo por su ID
+        
+        // Comprobar si el objetivo fue creado hoy
+        LocalDate fechaHoy = LocalDate.now();
+        if (objetivo.getFechaInicio().equals(fechaHoy)) {
+            // Registro de intento de eliminación en los logs
+            logger.info("Intentando eliminar el objetivo con ID " + idObjetivo + " creado hoy.");
+            
+            // Eliminar el objetivo
+            objetivoDAO.eliminar(idObjetivo);
+            
+            // Recargar la tabla de objetivos después de eliminar
+            cargarObjetivos(); 
+            
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Objetivo eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
+            // Registro de éxito de la eliminación en los logs
+            logger.info("Objetivo con ID " + idObjetivo + " eliminado exitosamente.");
+        } else {
+            // Registro de intento de eliminación fallido (objetivo no creado hoy)
+            logger.warning("El objetivo con ID " + idObjetivo + " no puede ser eliminado ya que no fue creado hoy.");
+            JOptionPane.showMessageDialog(this, "No puedes eliminar objetivos de días pasados.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        // Registro de error si no se seleccionó ningún objetivo
+        logger.warning("No se seleccionó ningún objetivo para eliminar.");
+        JOptionPane.showMessageDialog(this, "Por favor, selecciona un objetivo para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_btnEliminarPresupuestoActionPerformed
+
+    private void btnEditarPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPresupuestoActionPerformed
+   // Obtener la fila seleccionada en la tabla
+    int selectedRow = tblObjetivos.getSelectedRow();
+    
+    // Si se ha seleccionado una fila
+    if (selectedRow != -1) {
+        // Obtener el ID del objetivo de la tabla
+        int idObjetivo = (int) tblObjetivos.getValueAt(selectedRow, 0);
+        
+        // Obtener el objetivo desde la base de datos utilizando el ID
+        Objetivo objetivo = objetivoDAO.obtenerPorId(idObjetivo);
+        
+        // Verificar si se encontró el objetivo
+        if (objetivo != null) {
+            // Mostrar ventana emergente para editar los datos del objetivo
+            String descripcion = JOptionPane.showInputDialog(this, 
+                "Ingrese la descripción:", objetivo.getDescripcion());
+            String fechaInicioStr = JOptionPane.showInputDialog(this, 
+                "Ingrese la fecha de inicio (yyyy-MM-dd):", objetivo.getFechaInicio().toString());
+            String fechaFinStr = JOptionPane.showInputDialog(this, 
+                "Ingrese la fecha de fin (yyyy-MM-dd):", objetivo.getFechaFin().toString());
+            String cantidadStr = JOptionPane.showInputDialog(this, 
+                "Ingrese la cantidad:", String.valueOf(objetivo.getCantidad()));
+            
+            // Verificar que los campos no estén vacíos
+            if (descripcion != null && fechaInicioStr != null && fechaFinStr != null && cantidadStr != null) {
+                try {
+                    // Convertir las fechas de String a LocalDate
+                    LocalDate fechaInicio = LocalDate.parse(fechaInicioStr);
+                    LocalDate fechaFin = LocalDate.parse(fechaFinStr);
+                    double cantidad = Double.parseDouble(cantidadStr);
+                    
+                    // Actualizar los datos del objetivo con los nuevos valores
+                    objetivo.setDescripcion(descripcion);
+                    objetivo.setFechaInicio(fechaInicio);
+                    objetivo.setFechaFin(fechaFin);
+                    objetivo.setCantidad(cantidad);
+                    
+                    // Registrar en los logs que se va a realizar una actualización
+                    logger.info("Actualizando el objetivo con ID: " + objetivo.getIdObjetivo());
+                    logger.info("Nuevos datos: descripcion=" + descripcion + 
+                                ", fecha_inicio=" + fechaInicio + 
+                                ", fecha_fin=" + fechaFin + 
+                                ", cantidad=" + cantidad);
+                    
+                    // Llamar al método para actualizar el objetivo en la base de datos
+                    objetivoDAO.actualizar(objetivo);
+                    
+                    // Recargar la tabla con los datos actualizados
+                    cargarObjetivos();
+                    
+                    // Mostrar mensaje de éxito
+                    JOptionPane.showMessageDialog(this, "Objetivo actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    logger.info("Objetivo con ID " + objetivo.getIdObjetivo() + " actualizado exitosamente.");
+                } catch (Exception e) {
+                    // Registrar error en los logs si hay un problema con los datos
+                    logger.log(Level.SEVERE, "Error al actualizar el objetivo con ID " + objetivo.getIdObjetivo(), e);
+                    JOptionPane.showMessageDialog(this, 
+                        "Error al actualizar los datos. Asegúrate de ingresar datos válidos.", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                // Si el usuario cancela la edición o deja campos vacíos
+                logger.warning("Campos vacíos detectados durante la edición del objetivo.");
+                JOptionPane.showMessageDialog(this, "Los campos no pueden estar vacíos.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // Si no se encontró el objetivo en la base de datos
+            logger.warning("Objetivo con ID " + idObjetivo + " no encontrado.");
+            JOptionPane.showMessageDialog(this, "Objetivo no encontrado en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        // Si no se seleccionó ningún objetivo en la tabla
+        logger.warning("No se seleccionó ningún objetivo para editar.");
+        JOptionPane.showMessageDialog(this, "Por favor, selecciona un objetivo para editar.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_btnEditarPresupuestoActionPerformed
 
     /**
      * @param args the command line arguments

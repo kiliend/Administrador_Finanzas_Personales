@@ -96,30 +96,49 @@ public void insertar(Objetivo objetivo) {
      * 
      * @param idObjetivo El ID del objetivo a eliminar.
      */
-    @Override
-    public void eliminar(int idObjetivo) {
-        String sql = "DELETE FROM Objetivo WHERE id_objetivo = ?";
+   @Override
+public void eliminar(int idObjetivo) {
+    String sqlSelect = "SELECT fecha_inicio FROM Objetivo WHERE id_objetivo = ?";
+    
+    // Registrar inicio de la operación de eliminación
+    logger.info("Iniciando eliminación del objetivo con ID: " + idObjetivo);
+    
+    try (PreparedStatement stmt = conexion.prepareStatement(sqlSelect)) {
+        stmt.setInt(1, idObjetivo);
+        ResultSet rs = stmt.executeQuery();
 
-        // Registrar que se va a ejecutar la consulta de eliminación
-        logger.info("Ejecutando consulta para eliminar el objetivo con ID: " + idObjetivo);
+        // Verificar si existe el objetivo y comparar la fecha
+        if (rs.next()) {
+            LocalDate fechaCreacion = rs.getDate("fecha_inicio").toLocalDate();
+            LocalDate fechaActual = LocalDate.now();
+            
+            // Validar si la fecha de creación es el mismo día
+            if (fechaCreacion.isEqual(fechaActual)) {
+                String sqlDelete = "DELETE FROM Objetivo WHERE id_objetivo = ?";
+                try (PreparedStatement deleteStmt = conexion.prepareStatement(sqlDelete)) {
+                    deleteStmt.setInt(1, idObjetivo);
+                    int rowsAffected = deleteStmt.executeUpdate();
 
-        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
-            stmt.setInt(1, idObjetivo);
-            int rowsAffected = stmt.executeUpdate();
-
-            // Si se eliminaron filas, registrar el éxito
-            if (rowsAffected > 0) {
-                logger.info("Objetivo con ID " + idObjetivo + " eliminado exitosamente.");
+                    // Registrar el resultado de la eliminación
+                    if (rowsAffected > 0) {
+                        logger.info("Objetivo con ID " + idObjetivo + " eliminado exitosamente.");
+                    } else {
+                        logger.warning("No se encontró el objetivo con ID " + idObjetivo + " para eliminar.");
+                    }
+                }
             } else {
-                // Si no se eliminaron filas, registrar que no se encontró el objetivo
-                logger.warning("No se encontró el objetivo con ID " + idObjetivo + " para eliminar.");
+                // Si la fecha no es el mismo día
+                logger.warning("No se puede eliminar el objetivo con ID " + idObjetivo + " porque su fecha de creación no es hoy.");
             }
-
-        } catch (SQLException e) {
-            // Registrar el error en caso de fallo
-            logger.log(Level.SEVERE, "Error al eliminar el objetivo con ID " + idObjetivo, e);
+        } else {
+            // Si no se encontró el objetivo con ese ID
+            logger.warning("No se encontró el objetivo con ID " + idObjetivo + " para eliminar.");
         }
+    } catch (SQLException e) {
+        // Registrar el error en caso de fallo
+        logger.log(Level.SEVERE, "Error al intentar eliminar el objetivo con ID " + idObjetivo, e);
     }
+}
     /**
      * Obtiene un objetivo de la base de datos según su ID.
      * 
