@@ -4,6 +4,7 @@ import Clases.RegistroUsuario;
 import Clases.Usuario;
 import Clases.UsuarioSesion;
 import javax.swing.JOptionPane;
+import Clases.CLogin;
 
 /**
  *
@@ -23,6 +24,17 @@ public class MenuUsuario extends javax.swing.JFrame {
         } else {
             NumeroTarjeta.setText("");
         }
+        // Obtener el id desde la sesión
+        int userId = UsuarioSesion.getUserId();
+        
+        // Llamar al método que obtiene los detalles del usuario
+        CLogin.obtenerDetallesUsuario(userId);
+
+        // Establecer los valores de los cuadros de texto
+        txNombreEditar.setText(UsuarioSesion.getNombre());
+        txDNIEditar.setText(UsuarioSesion.getDni());
+        txEmailEditar.setText(UsuarioSesion.getCorreoElectronico());
+        txTelefonoEditar.setText(UsuarioSesion.getTelefono());
     }
     /**
      * Método para mostrar el número de tarjeta en el JLabel.
