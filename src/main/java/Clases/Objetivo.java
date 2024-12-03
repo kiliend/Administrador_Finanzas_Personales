@@ -28,6 +28,15 @@ public class Objetivo {
         this.cantidad = cantidad;
         this.idUsuario = idUsuario;
     }
+    // Constructor sin el idObjetivo (para cuando es autoincremental)
+    public Objetivo(String descripcion, LocalDate fechaInicio, LocalDate fechaFin, double cantidad, int idUsuario) {
+        this.descripcion = descripcion;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.cantidad = cantidad;
+        this.idUsuario = idUsuario;
+}
+
 
     public int getIdObjetivo() {
         return idObjetivo;

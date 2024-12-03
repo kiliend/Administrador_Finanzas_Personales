@@ -4,17 +4,48 @@
  */
 package JFrames;
 
+import ClaseDAO.ObjetivoDAO;
+import ClaseDAOImpl.ObjetivoDAOImpl;
+import Clases.Objetivo;
+import Clases.UsuarioSesion;
+import ConexionBD.ConexionDB;
+import java.sql.Connection;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Luan Condori
  */
 public class MenuObjetivos extends javax.swing.JFrame {
-
+    private ObjetivoDAOImpl objetivoDAO;
+    private Connection conexion;
     /**
      * Creates new form MenuObjetivos
      */
     public MenuObjetivos() {
         initComponents();
+        this.conexion = ConexionDB.getConexion(); // Obtén la conexión a la base de datos
+        this.objetivoDAO = new ObjetivoDAOImpl(conexion); 
+        cargarObjetivos(); // Cargar los objetivos cuando inicie el formulario
+       
+    }
+     private void cargarObjetivos() {
+         
+        int userId = UsuarioSesion.getUserId(); // Obtener el ID del usuario desde la sesión
+        if (userId != 0) {
+            // Realiza una consulta para cargar los objetivos del usuario
+            List<Objetivo> objetivos = objetivoDAO.obtenerPorUsuario(userId);
+            
+            DefaultTableModel model = (DefaultTableModel) tblObjetivos.getModel();
+            model.setRowCount(0); // Limpiar la tabla antes de agregar los nuevos datos
+            for (Objetivo objetivo : objetivos) {
+                model.addRow(new Object[] { objetivo.getIdObjetivo(),objetivo.getDescripcion(),objetivo.getFechaInicio(),objetivo.getFechaFin(),objetivo.getCantidad() });
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario no registrado", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -69,7 +100,7 @@ public class MenuObjetivos extends javax.swing.JFrame {
         btnCerrarSesionPresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnCerrarSesionPresupuesto.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrarSesionPresupuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cerrar-sesion.png"))); // NOI18N
-        btnCerrarSesionPresupuesto.setText("Cerrar Sesion");
+        btnCerrarSesionPresupuesto.setText("Regresar");
         btnCerrarSesionPresupuesto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarSesionPresupuestoActionPerformed(evt);
@@ -98,9 +129,11 @@ public class MenuObjetivos extends javax.swing.JFrame {
                             .addComponent(btnIngresoPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(38, 38, 38))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnCerrarSesionPresupuesto)
-                            .addComponent(btnReportePresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnReportePresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnCerrarSesionPresupuesto)
+                                .addGap(23, 23, 23)))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -114,9 +147,9 @@ public class MenuObjetivos extends javax.swing.JFrame {
                 .addComponent(btnGastoPresupuesto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(btnReportePresupuesto)
-                .addGap(43, 43, 43)
+                .addGap(42, 42, 42)
                 .addComponent(btnCerrarSesionPresupuesto)
-                .addGap(60, 60, 60))
+                .addGap(61, 61, 61))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 204));
@@ -154,12 +187,17 @@ public class MenuObjetivos extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "PRESUPUESTO", "CANTIDAD", "FECHA INCIO", "FECHA FIN", "SITUACION"
+                "ID Objetivo", "Descripción", "Fecha Inicio", "Fecha Fin", "Cantidad"
             }
         ));
         jScrollPane1.setViewportView(tblObjetivos);
 
         btnPresupuestos.setText("Presupuesto");
+        btnPresupuestos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPresupuestosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -255,6 +293,12 @@ public class MenuObjetivos extends javax.swing.JFrame {
         // Hacer visible el formulario secundario
         RegistroO.setVisible(true);
     }//GEN-LAST:event_btnAgregarPresupuestoActionPerformed
+
+    private void btnPresupuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPresupuestosActionPerformed
+EstablecerPresupuesto Presupuesto = new EstablecerPresupuesto  ();
+Presupuesto.setVisible(true);
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnPresupuestosActionPerformed
 
     /**
      * @param args the command line arguments

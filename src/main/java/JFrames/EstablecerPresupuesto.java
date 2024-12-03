@@ -7,6 +7,8 @@ package JFrames;
 import ClaseDAOImpl.CategoriaGastoDAOImpl;
 import ConexionBD.ConexionDB;
 import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -260,6 +262,11 @@ public class EstablecerPresupuesto extends javax.swing.JFrame {
 
     private void bntModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntModificarActionPerformed
 try {
+    Logger logger = Logger.getLogger("CategoriaGastoUpdater");
+
+    // Registrar inicio de la operación
+    logger.info("Iniciando actualización de categorías de gasto.");
+
     double alimentacion = Double.parseDouble(txtAlimentacion.getText());
     double deudas = Double.parseDouble(txtDeudas.getText());
     double educacion = Double.parseDouble(txtEducacion.getText());
@@ -270,20 +277,47 @@ try {
     double transporte = Double.parseDouble(txtTransporte.getText());
     double vivienda = Double.parseDouble(txtVivienda.getText());
 
+    // Registrar éxito en el parsing de los valores
+    logger.info("Valores de entrada validados correctamente.");
+
     // Crear el DAO de CategoriaGasto con la conexión existente
     Connection conexion = ConexionDB.getConexion();
+    if (conexion == null) {
+        logger.severe("No se pudo establecer conexión con la base de datos.");
+        JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    logger.info("Conexión a la base de datos establecida.");
+
     CategoriaGastoDAOImpl categoriaGastoDAO = new CategoriaGastoDAOImpl(conexion);
 
     // Actualizar cada categoría en la base de datos
     categoriaGastoDAO.updateCategoriaGasto("Alimentación", alimentacion);
+    logger.info("Categoría 'Alimentación' actualizada a: " + alimentacion);
+
     categoriaGastoDAO.updateCategoriaGasto("Deudas y préstamos", deudas);
+    logger.info("Categoría 'Deudas y préstamos' actualizada a: " + deudas);
+
     categoriaGastoDAO.updateCategoriaGasto("Educación", educacion);
+    logger.info("Categoría 'Educación' actualizada a: " + educacion);
+
     categoriaGastoDAO.updateCategoriaGasto("Entretenimiento", entretenimiento);
+    logger.info("Categoría 'Entretenimiento' actualizada a: " + entretenimiento);
+
     categoriaGastoDAO.updateCategoriaGasto("Donaciones y regalos", regalos);
+    logger.info("Categoría 'Donaciones y regalos' actualizada a: " + regalos);
+
     categoriaGastoDAO.updateCategoriaGasto("Ropa y accesorios", ropa);
+    logger.info("Categoría 'Ropa y accesorios' actualizada a: " + ropa);
+
     categoriaGastoDAO.updateCategoriaGasto("Salud", salud);
+    logger.info("Categoría 'Salud' actualizada a: " + salud);
+
     categoriaGastoDAO.updateCategoriaGasto("Transporte", transporte);
+    logger.info("Categoría 'Transporte' actualizada a: " + transporte);
+
     categoriaGastoDAO.updateCategoriaGasto("Vivienda", vivienda);
+    logger.info("Categoría 'Vivienda' actualizada a: " + vivienda);
 
     // Limpiar los campos de texto después de actualizar
     txtAlimentacion.setText("");
@@ -296,11 +330,18 @@ try {
     txtTransporte.setText("");
     txtVivienda.setText("");
 
+    // Registrar éxito de la operación
+    logger.info("Todas las categorías fueron actualizadas correctamente.");
+
     // Mostrar un mensaje de éxito
     JOptionPane.showMessageDialog(this, "Categorías actualizadas exitosamente.");
 } catch (NumberFormatException e) {
+    // Registrar error en el parsing de valores numéricos
+    Logger.getLogger("CategoriaGastoUpdater").log(Level.WARNING, "Error en el formato numérico: ", e);
     JOptionPane.showMessageDialog(this, "Por favor, ingresa valores numéricos válidos.", "Error", JOptionPane.ERROR_MESSAGE);
 } catch (Exception e) {
+    // Registrar error inesperado
+    Logger.getLogger("CategoriaGastoUpdater").log(Level.SEVERE, "Error inesperado: ", e);
     JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
     }//GEN-LAST:event_bntModificarActionPerformed

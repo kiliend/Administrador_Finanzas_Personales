@@ -2,7 +2,6 @@ JFrames\MenuReportes$8.class
 com\mycompany\administrador_finanzas_personales\Administrador_Finanzas_Personales.class
 JFrames\MenuGastos$3.class
 JFrames\MenuReportes$5.class
-JFrames\Registro_Objetivo$3.class
 JFrames\MenuRegistrarIngresos$2.class
 JFrames\MenuReportes$12.class
 Clases\User.class
@@ -68,8 +67,8 @@ JFrames\MenuReportes$7.class
 JFrames\MenuReportes$11.class
 JFrames\MenuReportes$4.class
 RegistrarIngreso\IngresoConexionDB.class
-JFrames\Registro_Objetivo$4.class
 JFrames\MenuReportes$1.class
+JFrames\MenuObjetivos$5.class
 JFrames\FormLogin$4.class
 JFrames\MenuReportes.class
 JFrames\MenuRegistrarIngresos.class

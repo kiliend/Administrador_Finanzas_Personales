@@ -52,4 +52,12 @@ public interface ObjetivoDAO {
      * @return una lista de todos los objetivos
      */
     List<Objetivo> obtenerTodos();
+    
+    /**
+     * Obtiene una lista de los objetivos relacionados con un id_usuario específico.
+     *
+     * @param idUsuario el ID del usuario cuyos objetivos se desean recuperar
+     * @return una lista de objetivos del usuario
+     */
+    List<Objetivo> obtenerPorUsuario(int idUsuario);
 }
