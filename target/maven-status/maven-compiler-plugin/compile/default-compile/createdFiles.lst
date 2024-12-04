@@ -1,4 +1,6 @@
 JFrames\MenuReportes$8.class
+ClaseDAO\GastoDAO.class
+JFrames\MenuGastos$6.class
 com\mycompany\administrador_finanzas_personales\Administrador_Finanzas_Personales.class
 JFrames\MenuGastos$3.class
 JFrames\MenuReportes$5.class
@@ -37,6 +39,7 @@ ClaseDAOImpl\IngresoDAOImpl.class
 JFrames\MenuUsuario$1.class
 RegistrarCuenta\CuentaBancaria.class
 JFrames\RegistrarGastos$3.class
+JFrames\MenuObjetivos$9.class
 ClaseDAO\ObjetivoDAO.class
 JFrames\MenuGastos.class
 RegistrarIngreso\Ingreso.class
@@ -62,6 +65,7 @@ Clases\Conexion.class
 JFrames\FormLogin$2.class
 JFrames\FormRegistrar$2.class
 JFrames\MenuUsuario$3.class
+JFrames\MenuReportes$14.class
 JFrames\Registro_Objetivo$1.class
 JFrames\MenuGastos$2.class
 Clases\CategoriaGasto.class
@@ -76,6 +80,7 @@ JFrames\FormLogin$4.class
 JFrames\MenuReportes.class
 JFrames\MenuRegistrarIngresos.class
 ClaseDAOImpl\CategoriaGastoDAOImpl.class
+ClaseDAOImpl\GastoDAOImpl.class
 JFrames\MenuRegistrarIngresos$4.class
 JFrames\Menu$4.class
 JFrames\MenuReportes$3.class
@@ -84,6 +89,7 @@ Clases\UsuarioSesion.class
 JFrames\EstablecerPresupuesto$4.class
 JFrames\RegistrarGastos.class
 JFrames\RegistrarCuentaBancaria$1.class
+JFrames\MenuGastos$5.class
 EditarGasto\GastosConexionDB.class
 JFrames\MenuReportes$2.class
 JFrames\FormLogin$3.class

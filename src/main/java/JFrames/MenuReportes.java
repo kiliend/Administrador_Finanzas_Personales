@@ -89,6 +89,11 @@ public class MenuReportes extends javax.swing.JFrame {
         btnGastosReporte.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnGastosReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/depreciacion.png"))); // NOI18N
         btnGastosReporte.setText("Gastos");
+        btnGastosReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGastosReporteActionPerformed(evt);
+            }
+        });
 
         btnPresupuesto.setBackground(new java.awt.Color(102, 255, 255));
         btnPresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -374,7 +379,9 @@ public class MenuReportes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresoReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoReporteActionPerformed
-        categoriaSeleccionada = "Ingreso";
+   MenuRegistrarIngresos Ingresos = new MenuRegistrarIngresos();
+   Ingresos.setVisible(true);
+   this.dispose();
     }//GEN-LAST:event_btnIngresoReporteActionPerformed
 
     private void btnCerrarSesionPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionPresupuestoActionPerformed
@@ -476,6 +483,13 @@ public class MenuReportes extends javax.swing.JFrame {
         logger.info("Rehabilitando el botón de descarga.");
     }
     }//GEN-LAST:event_btnDescargarActionPerformed
+
+    private void btnGastosReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGastosReporteActionPerformed
+    MenuGastos Gastos = new MenuGastos();
+    Gastos.setVisible(true);
+    this.dispose();
+    
+    }//GEN-LAST:event_btnGastosReporteActionPerformed
 
     /**
      * @param args the command line arguments

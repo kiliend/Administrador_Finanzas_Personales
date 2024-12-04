@@ -3,28 +3,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Clases;
+import java.util.Date;
 
-/**
- *
- * @author Luan Condori
- */
 public class Gasto {
     private int idGasto;
     private double cantidad;
-    private String fecha;
     private String descripcion;
-    private int idIngreso;
+    private Date fecha; // Asegúrate de que sea java.sql.Date
+    private int idUsuario;
     private int idCategoria;
 
-    public Gasto(int idGasto, double cantidad, String fecha, String descripcion, int idIngreso, int idCategoria) {
+    // Constructor, getters y setters...
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+    // Constructor
+    public Gasto(int idGasto, double cantidad, String descripcion, Date fecha, int idUsuario, int idCategoria) {
         this.idGasto = idGasto;
         this.cantidad = cantidad;
-        this.fecha = fecha;
         this.descripcion = descripcion;
-        this.idIngreso = idIngreso;
+        this.fecha = fecha;
+        this.idUsuario = idUsuario;
         this.idCategoria = idCategoria;
     }
 
+    // Getters y Setters
     public int getIdGasto() {
         return idGasto;
     }
@@ -41,13 +49,6 @@ public class Gasto {
         this.cantidad = cantidad;
     }
 
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
 
     public String getDescripcion() {
         return descripcion;
@@ -57,12 +58,12 @@ public class Gasto {
         this.descripcion = descripcion;
     }
 
-    public int getIdIngreso() {
-        return idIngreso;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setIdIngreso(int idIngreso) {
-        this.idIngreso = idIngreso;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public int getIdCategoria() {
@@ -72,6 +73,4 @@ public class Gasto {
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
     }
-    
-    
 }

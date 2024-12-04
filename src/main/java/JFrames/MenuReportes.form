@@ -130,6 +130,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Gastos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGastosReporteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnPresupuesto">
           <Properties>

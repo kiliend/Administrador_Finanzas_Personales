@@ -2,9 +2,7 @@ package JFrames;
 
 import ClaseDAOImpl.IngresoDAOImpl;
 import Clases.Ingreso;
-import Clases.UsuarioSesion;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 

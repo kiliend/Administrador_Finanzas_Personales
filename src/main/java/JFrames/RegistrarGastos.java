@@ -1,15 +1,18 @@
 package JFrames;
 
-import java.sql.SQLException;
-import EditarGasto.GastosConexionDB;
-import EditarGasto.ExportarGastos;
+import ClaseDAOImpl.GastoDAOImpl;
+import Clases.Gasto;
+import Clases.UsuarioSesion;
+import ConexionBD.ConexionDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.sql.ResultSet;
 
 /**
  * La clase {@code RegistrarGastos} representa el formulario para registrar y
@@ -26,18 +29,73 @@ public class RegistrarGastos extends javax.swing.JFrame {
      */
     private static final Logger logger = LoggerFactory.getLogger(RegistrarGastos.class);
 
-    /**
-     * Instancia para exportar los gastos a un archivo Excel.
-     */
-    private ExportarGastos excelExporter = new ExportarGastos();
-
-    /**
-     * Crea una nueva instancia de {@code RegistrarGastos} e inicializa los
-     * componentes de la interfaz.
-     */
     public RegistrarGastos() {
         initComponents();
+        cargarCategorias();
     }
+        private void cargarCategorias() {
+            // Crear una lista para almacenar las categorías
+            List<String> categorias = new ArrayList<>();
+            logger.info("Iniciando carga de categorías desde la base de datos...");
+
+            // Realizar consulta a la base de datos para obtener las categorías
+            try (Connection conexion = ConexionDB.getConexion()) {
+                logger.info("Conexión establecida con la base de datos.");
+
+                String sql = "SELECT nombre FROM categoria_gasto";
+                PreparedStatement ps = conexion.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+
+                logger.info("Ejecutando consulta: " + sql);
+
+                // Llenar el ComboBox con las categorías
+                while (rs.next()) {
+                    String categoria = rs.getString("nombre");
+                    categorias.add(categoria);
+                    logger.debug("Categoría obtenida: " + categoria); // Log detallado por cada categoría
+                }
+
+                logger.info("Consulta ejecutada exitosamente. Se han obtenido " + categorias.size() + " categorías.");
+            } catch (SQLException e) {
+                logger.error("Error al cargar las categorías desde la base de datos", e);
+            }
+
+            // Verificar si se obtuvieron categorías y agregar al ComboBox
+            if (!categorias.isEmpty()) {
+                logger.info("Agregando categorías al ComboBox...");
+                for (String categoria : categorias) {
+                    jComboBoxCategoria_gasto.addItem(categoria);
+                    logger.debug("Categoría agregada al ComboBox: " + categoria);
+                }
+            } else {
+                logger.warn("No se encontraron categorías para agregar al ComboBox.");
+            }
+
+            logger.info("Carga de categorías finalizada.");
+        }
+        private void limpiarCampos() {
+    txtDescripcion.setText("");  // Limpiar el campo de descripción
+    txtMonto.setText("");  // Limpiar el campo de monto
+    jComboBoxCategoria_gasto.setSelectedIndex(0);  // Restablecer el ComboBox a la primera opción
+    jDateChooser1FECHA.setDate(null);  // Limpiar el selector de fecha
+    logger.info("Campos limpiados exitosamente.");
+}
+        // Método para obtener la asignación de la categoría
+private double obtenerAsignacionCategoria(int idCategoria) {
+    double asignacion = 0;
+    String sql = "SELECT asignacion FROM categoria_gasto WHERE id_categoria = ?";
+    try (Connection conexion = ConexionDB.getConexion();
+         PreparedStatement ps = conexion.prepareStatement(sql)) {
+        ps.setInt(1, idCategoria);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            asignacion = rs.getDouble("asignacion");
+        }
+    } catch (SQLException e) {
+        logger.error("Error al obtener la asignación de la categoría", e);
+    }
+    return asignacion;
+}
 
     @SuppressWarnings("unchecked")
     // Otros métodos y lógica de la clase
@@ -51,17 +109,14 @@ public class RegistrarGastos extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtCategoria = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtFecha = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         RegistrarGasto = new javax.swing.JButton();
         RegresarMenu = new javax.swing.JButton();
         txtMonto = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtDescripcion = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
+        jComboBoxCategoria_gasto = new javax.swing.JComboBox<>();
+        jDateChooser1FECHA = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,8 +155,6 @@ public class RegistrarGastos extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel6.setText("¿Cuando lo gastamos?");
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/calendario.png"))); // NOI18N
-
         RegistrarGasto.setBackground(new java.awt.Color(153, 255, 153));
         RegistrarGasto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         RegistrarGasto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar.png"))); // NOI18N
@@ -125,9 +178,6 @@ public class RegistrarGastos extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel3.setText("¿En que Gastamos?");
 
-        jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel8.setText("¿Cual es el ID?");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -148,20 +198,14 @@ public class RegistrarGastos extends javax.swing.JFrame {
                                 .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel7))
+                                    .addComponent(jLabel6)
                                     .addComponent(jLabel5)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel8))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                                        .addComponent(txtMonto, javax.swing.GroupLayout.Alignment.LEADING))))))
+                                    .addComponent(jLabel4))
+                                .addGap(48, 48, 48)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jComboBoxCategoria_gasto, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtMonto, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jDateChooser1FECHA, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -176,28 +220,23 @@ public class RegistrarGastos extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jComboBoxCategoria_gasto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jDateChooser1FECHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57)
+                .addGap(54, 54, 54)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RegistrarGasto)
                     .addComponent(RegresarMenu))
@@ -219,75 +258,69 @@ public class RegistrarGastos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void RegistrarGastoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarGastoActionPerformed
-        /**
-         * Acción realizada al presionar el botón "Registrar Gasto". Obtiene los
-         * valores de los campos de texto y actualiza el gasto en la base de
-         * datos. Realiza validaciones de entrada antes de ejecutar la
-         * actualización.
-         *
-         * @param evt el evento de acción generado por el botón "Registrar
-         * Gasto"
-         */
-// Obtener los valores de los campos de texto
-        String idStr = txtId.getText();
-        String categoria = txtCategoria.getText();
-        String descripcion = txtDescripcion.getText();
-        String fecha = txtFecha.getText();
-        String montoStr = txtMonto.getText();
+// Obtener los valores de los campos
+logger.info("Iniciando el registro del gasto...");
 
-        // Validar que los campos no estén vacíos
-        if (idStr.isEmpty() || categoria.isEmpty() || descripcion.isEmpty() || fecha.isEmpty() || montoStr.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
-            return;
-        }
+String descripcion = txtDescripcion.getText();
+logger.debug("Descripción del gasto: " + descripcion); // Log detallado para la descripción
 
-        try {
-            int id = Integer.parseInt(idStr); // Convertir el ID a entero
-            double monto = Double.parseDouble(montoStr); // Convertir el monto a double
+double monto;
+try {
+    monto = Double.parseDouble(txtMonto.getText());
+    logger.debug("Monto ingresado: " + monto); // Log detallado para el monto
+} catch (NumberFormatException e) {
+    logger.error("Error al parsear el monto ingresado", e);
+    JOptionPane.showMessageDialog(this, "El monto ingresado no es válido.");
+    return;  // Detener la ejecución si el monto es inválido
+}
 
-            // Validar el formato de la fecha
-            if (!fecha.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                javax.swing.JOptionPane.showMessageDialog(this, "El formato de la fecha debe ser YYYY-MM-DD.");
-                return;
-            }
+int idCategoria = jComboBoxCategoria_gasto.getSelectedIndex() + 1;  // Obtener el ID de la categoría seleccionada
+logger.debug("ID de la categoría seleccionada: " + idCategoria);
 
-            // Validar que el gasto con el ID dado existe
-            if (!gastoExists(id)) {
-                javax.swing.JOptionPane.showMessageDialog(this, "No se encontró el gasto con ID " + id + ".");
-                return;
-            }
+java.util.Date fecha = jDateChooser1FECHA.getDate();
+logger.debug("Fecha seleccionada: " + fecha); // Log detallado para la fecha
 
-            // Consulta para actualizar el gasto en la base de datos
-            String sqlUpdate = "UPDATE gastos SET monto = ?, categoria = ?, fecha = ?, descripcion = ? WHERE id = ?";
+// Obtener el ID del usuario desde UsuarioSesion
+int idUsuario = UsuarioSesion.getUserId();
+logger.debug("ID del usuario: " + idUsuario); // Log detallado para el ID del usuario
 
-            try (Connection conn = GastosConexionDB.getConnectionGastos(); PreparedStatement pstmt = conn.prepareStatement(sqlUpdate)) {
+// Verificar si la fecha no es nula
+if (fecha != null) {
+    java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime()); // Convertir a java.sql.Date
+    logger.debug("Fecha convertida a SQL: " + fechaSQL); // Log detallado para la fecha SQL
 
-                pstmt.setDouble(1, monto);
-                pstmt.setString(2, categoria);
-                pstmt.setDate(3, java.sql.Date.valueOf(fecha)); // Convertir la fecha a java.sql.Date
-                pstmt.setString(4, descripcion);
-                pstmt.setInt(5, id); // Usar el ID para la actualización
+    // Verificar la asignación de la categoría
+    double asignacionCategoria = obtenerAsignacionCategoria(idCategoria); // Método para obtener la asignación de la categoría
 
-                int filasAfectadas = pstmt.executeUpdate(); // Ejecutar la consulta de actualización
-                if (filasAfectadas > 0) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "Gasto actualizado exitosamente.");
-                                    // Exportar los gastos a Excel
-                ExportarGastos exportarGastos = new ExportarGastos();
-                List<Object[]> listaGastos = obtenerGastos();
-                exportarGastos.exportarGastosAExcel(listaGastos);
-                    logger.info("Gasto actualizado exitosamente con ID: {}", id);
-                } else {
-                    javax.swing.JOptionPane.showMessageDialog(this, "No se pudo actualizar el gasto con ID " + id + ".");
-                }
+    // Validar si el monto ingresado excede la asignación de la categoría
+    if (monto > asignacionCategoria) {
+        JOptionPane.showMessageDialog(this, "El monto ingresado supera la asignación de la categoría.");
+        logger.warn("Monto ingresado excede la asignación de la categoría: " + asignacionCategoria);
+        return;  // Detener la ejecución si el monto es mayor que la asignación
+    }
 
-            } catch (SQLException e) {
-                logger.error("Error al actualizar el gasto: {}", e.getMessage(), e);
-                javax.swing.JOptionPane.showMessageDialog(this, "Error al actualizar el gasto: " + e.getMessage());
-            }
+    // Crear el objeto Gasto
+    Gasto gasto = new Gasto(0, monto, descripcion, fechaSQL, idUsuario, idCategoria);
+    logger.info("Objeto Gasto creado: " + gasto); // Log detallado para el objeto Gasto
 
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "El ID y el monto deben ser números válidos.");
-        }
+    // Llamar al método para registrar el gasto
+    GastoDAOImpl gastoDAO = new GastoDAOImpl();
+    try {
+        logger.info("Intentando registrar el gasto en la base de datos...");
+        gastoDAO.registrarGasto(gasto);
+        logger.info("Gasto registrado exitosamente en la base de datos.");
+        JOptionPane.showMessageDialog(this, "Gasto registrado exitosamente.");
+
+        // Limpiar los campos después del registro
+        limpiarCampos(); // Llamamos al método para limpiar los campos
+    } catch (SQLException e) {
+        logger.error("Error al registrar el gasto en la base de datos", e);
+        JOptionPane.showMessageDialog(this, "Error al registrar el gasto.");
+    }
+} else {
+    logger.warn("La fecha seleccionada es nula.");
+    JOptionPane.showMessageDialog(this, "Por favor, seleccione una fecha.");
+}
     }//GEN-LAST:event_RegistrarGastoActionPerformed
 
     private void RegresarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarMenuActionPerformed
@@ -303,59 +336,6 @@ public class RegistrarGastos extends javax.swing.JFrame {
         new MenuGastos().setVisible(true); // Abrir la ventana del menú principal de gastos
     }//GEN-LAST:event_RegresarMenuActionPerformed
 
-    /**
-     * Obtiene una lista de todos los gastos de la base de datos.
-     *
-     * @return una lista de arreglos de objetos, donde cada arreglo contiene los
-     * datos de un gasto
-     */
-    private List<Object[]> obtenerGastos() {
-        List<Object[]> gastos = new ArrayList<>();
-        String sqlSelect = "SELECT id, monto, categoria, fecha, descripcion FROM gastos"; // Asegúrate de que el nombre de la tabla y las columnas son correctos.
-
-        try (Connection conn = GastosConexionDB.getConnectionGastos(); PreparedStatement pstmt = conn.prepareStatement(sqlSelect); ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                double monto = rs.getDouble("monto");
-                String categoria = rs.getString("categoria");
-                String fecha = rs.getString("fecha");
-                String descripcion = rs.getString("descripcion");
-                gastos.add(new Object[]{id, monto, categoria, fecha, descripcion});
-            }
-        } catch (SQLException e) {
-            logger.error("Error al obtener los gastos: {}", e.getMessage(), e);
-        }
-
-        return gastos; // Retorna la lista de gastos.
-    }
-
-    /**
-     * Verifica si un gasto con el ID especificado existe en la base de datos.
-     *
-     * @param id el ID del gasto a verificar
-     * @return {@code true} si el gasto existe, {@code false} en caso contrario
-     */
-    private boolean gastoExists(int id) {
-        String sqlCheck = "SELECT COUNT(*) FROM gastos WHERE id = ?";
-        try (Connection conn = GastosConexionDB.getConnectionGastos(); PreparedStatement pstmt = conn.prepareStatement(sqlCheck)) {
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0; // Retorna true si el ID existe
-            }
-        } catch (SQLException e) {
-            logger.error("Error al verificar si el gasto existe: {}", e.getMessage(), e);
-        }
-        return false; // Retorna false si hubo un error o no existe
-    }
-
-    /**
-     * Método principal que establece el estilo de la interfaz gráfica y muestra
-     * el formulario de {@code RegistrarGastos}.
-     *
-     * @param args los argumentos de la línea de comandos
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -398,20 +378,17 @@ public class RegistrarGastos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RegistrarGasto;
     private javax.swing.JButton RegresarMenu;
+    private javax.swing.JComboBox<String> jComboBoxCategoria_gasto;
+    private com.toedter.calendar.JDateChooser jDateChooser1FECHA;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField txtCategoria;
     private javax.swing.JTextField txtDescripcion;
-    private javax.swing.JTextField txtFecha;
-    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtMonto;
     // End of variables declaration//GEN-END:variables
 }

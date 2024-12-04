@@ -149,31 +149,39 @@ public List<Ingreso> obtenerIngresosPorUsuario(int idUsuario) throws SQLExceptio
      *         o null si no se encuentra ningún ingreso en ese mes.
      * @throws SQLException Si ocurre algún error al interactuar con la base de datos.
      */
-    @Override
-    public Ingreso obtenerIngresoMasAltoDelMes(int idUsuario, String mes) throws SQLException {
-        String sql = "SELECT * FROM ingreso WHERE id_usuario = ? AND MONTH(fecha) = MONTH(?) ORDER BY cantidad DESC LIMIT 1";
-        logger.info("Obteniendo el ingreso más alto para el usuario ID: " + idUsuario + " en el mes: " + mes);
-        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setInt(1, idUsuario);
-            ps.setString(2, mes); // Asegúrate de pasar el mes en formato 'YYYY-MM' o 'YYYY-MM-DD'
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Ingreso ingreso = new Ingreso(
-                    rs.getInt("id_ingreso"),
-                    rs.getDouble("cantidad"),
-                    rs.getDate("fecha"),
-                    rs.getString("descripcion"),
-                    rs.getInt("id_usuario")
-                );
-                logger.info("Ingreso más alto obtenido: " + ingreso);
-                return ingreso;
+        @Override
+        public Ingreso obtenerIngresoMasAltoDelMes(int idUsuario, String mes) throws SQLException {
+            // Suponiendo que 'mes' viene en formato 'YYYY-MM', vamos a crear el rango de fechas
+            String sql = "SELECT * FROM ingreso WHERE id_usuario = ? AND fecha >= ? AND fecha < ? ORDER BY cantidad DESC LIMIT 1";
+            logger.info("Obteniendo el ingreso más alto para el usuario ID: " + idUsuario + " en el mes: " + mes);
+            try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+                // Parsear el mes y agregar las fechas de inicio y fin del mes
+                String inicioMes = mes + "-01"; // Primer día del mes
+                String finMes = mes + "-31";   // Último día del mes (puedes ajustar este valor si el mes tiene menos de 31 días)
+
+                // Establecemos las fechas de inicio y fin del mes en el PreparedStatement
+                ps.setInt(1, idUsuario);
+                ps.setString(2, inicioMes); // Fecha de inicio
+                ps.setString(3, finMes);   // Fecha de fin
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    Ingreso ingreso = new Ingreso(
+                        rs.getInt("id_ingreso"),
+                        rs.getDouble("cantidad"),
+                        rs.getDate("fecha"),
+                        rs.getString("descripcion"),
+                        rs.getInt("id_usuario")
+                    );
+                    logger.info("Ingreso más alto obtenido: " + ingreso);
+                    return ingreso;
+                }
+            } catch (SQLException e) {
+                logger.log(Level.SEVERE, "Error al obtener el ingreso más alto", e);
+                throw e;
             }
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error al obtener el ingreso más alto", e);
-            throw e;
+            return null; // Retorna null si no se encuentra ningún ingreso
         }
-        return null; // Retorna null si no se encuentra ningún ingreso
-    }
 
     /**
      * Obtiene el total de ingresos de un usuario en un mes específico.
@@ -183,25 +191,34 @@ public List<Ingreso> obtenerIngresosPorUsuario(int idUsuario) throws SQLExceptio
      * @return El total de ingresos en formato de tipo double.
      * @throws SQLException Si ocurre algún error al interactuar con la base de datos.
      */
-    @Override
-    public double obtenerTotalIngresosDelMes(int idUsuario, String mes) throws SQLException {
-        String sql = "SELECT SUM(cantidad) FROM ingreso WHERE id_usuario = ? AND MONTH(fecha) = MONTH(?)";
-        logger.info("Obteniendo el total de ingresos para el usuario ID: " + idUsuario + " en el mes: " + mes);
-        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setInt(1, idUsuario);
-            ps.setString(2, mes); // Asegúrate de pasar el mes en formato 'YYYY-MM'
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                double total = rs.getDouble(1);
-                logger.info("Total de ingresos en el mes: " + total);
-                return total; // Devuelve el total de ingresos
+        @Override
+        public double obtenerTotalIngresosDelMes(int idUsuario, String mes) throws SQLException {
+            // Suponiendo que 'mes' viene en formato 'YYYY-MM', vamos a crear el rango de fechas
+            String sql = "SELECT SUM(cantidad) FROM ingreso WHERE id_usuario = ? AND fecha >= ? AND fecha < ?";
+            logger.info("Obteniendo el total de ingresos para el usuario ID: " + idUsuario + " en el mes: " + mes);
+            try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+                // Parsear el mes y agregar las fechas de inicio y fin del mes
+                String inicioMes = mes + "-01"; // Primer día del mes
+                String finMes = mes + "-31";   // Último día del mes (ajustar según el mes)
+
+                // Establecemos las fechas de inicio y fin del mes en el PreparedStatement
+                ps.setInt(1, idUsuario);
+                ps.setString(2, inicioMes); // Fecha de inicio
+                ps.setString(3, finMes);   // Fecha de fin
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    double total = rs.getDouble(1);
+                    logger.info("Total de ingresos en el mes: " + total);
+                    return total; // Devuelve el total de ingresos
+                }
+            } catch (SQLException e) {
+                logger.log(Level.SEVERE, "Error al obtener el total de ingresos", e);
+                throw e;
             }
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error al obtener el total de ingresos", e);
-            throw e;
+            return 0; // Retorna 0 si no se encuentran ingresos
         }
-        return 0; // Retorna 0 si no se encuentran ingresos
-    }
+
 
     /**
      * Actualiza los detalles de un ingreso existente en la base de datos.

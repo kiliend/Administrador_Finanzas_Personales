@@ -7,7 +7,9 @@ import Clases.UsuarioSesion;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -35,6 +37,7 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
     
     // Instancia del DAO para interactuar con la base de datos
     private IngresoDAOImpl ingresoDAO;
+    
 
     /**
      * Crea una nueva instancia de {@code MenuRegistrarIngresos}.
@@ -48,7 +51,13 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
         ingresoDAO = new IngresoDAOImpl(); // Inicializamos el DAO
         logger.info("Instancia de MenuRegistrarIngresos creada.");
         cargarIngresosEnTabla();
-   
+        
+            // Obtener el mes actual en formato de texto (por ejemplo, "enero", "febrero", etc.)
+    String mesActual = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+
+    // Llamada a los métodos para cargar los datos del mes actual
+    cargarUltimoIngreso();             // Carga el último ingreso
+
     }
     /**
      * Método para cargar los ingresos de un usuario en la tabla.
@@ -89,54 +98,27 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
         }
     }
 
-    private void cargarUltimoIngreso() {
-        int idUsuario = obtenerIdUsuario();  // Usamos el ID del usuario desde UsuarioSesion
-        logger.info("Cargando el último ingreso para el usuario ID: " + idUsuario);
-        try {
-            Ingreso ultimoIngreso = ingresoDAO.obtenerUltimoIngreso(idUsuario);
-            if (ultimoIngreso != null) {
-                txtUltimoIngreso.setText(String.valueOf(ultimoIngreso.getCantidad()));
-                logger.info("Último ingreso cargado: " + ultimoIngreso.getCantidad());
-            } else {
-                txtUltimoIngreso.setText("N/A");
-                logger.warning("No se encontró un último ingreso para el usuario ID: " + idUsuario);
+            private void cargarUltimoIngreso() {
+                int idUsuario = obtenerIdUsuario();  // Usamos el ID del usuario desde UsuarioSesion
+                logger.info("Cargando el último ingreso para el usuario ID: " + idUsuario);
+                try {
+                    Ingreso ultimoIngreso = ingresoDAO.obtenerUltimoIngreso(idUsuario);
+                    if (ultimoIngreso != null) {
+                        // Formatear el monto a 2 decimales y agregar el texto "S/."
+                        txtUltimoIngreso.setText("Último ingreso: S/." + String.format("%.2f", ultimoIngreso.getCantidad()));
+                        logger.info("Último ingreso cargado: " + ultimoIngreso.getCantidad());
+                    } else {
+                        txtUltimoIngreso.setText("Último ingreso: S/. N/A");
+                        logger.warning("No se encontró un último ingreso para el usuario ID: " + idUsuario);
+                    }
+                } catch (SQLException e) {
+                    logger.log(Level.SEVERE, "Error al obtener el último ingreso para el usuario ID: " + idUsuario, e);
+                    JOptionPane.showMessageDialog(this, "Error al obtener el último ingreso: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error al obtener el último ingreso para el usuario ID: " + idUsuario, e);
-            JOptionPane.showMessageDialog(this, "Error al obtener el último ingreso: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
-    private void cargarIngresoMasAlto(String mes) {
-        int idUsuario = obtenerIdUsuario();  // Usamos el ID del usuario desde UsuarioSesion
-        logger.info("Cargando el ingreso más alto para el usuario ID: " + idUsuario + " en el mes: " + mes);
-        try {
-            Ingreso ingresoMasAlto = ingresoDAO.obtenerIngresoMasAltoDelMes(idUsuario, mes);
-            if (ingresoMasAlto != null) {
-                txtIngresoMayor.setText(String.valueOf(ingresoMasAlto.getCantidad()));
-                logger.info("Ingreso más alto cargado: " + ingresoMasAlto.getCantidad());
-            } else {
-                txtIngresoMayor.setText("N/A");
-                logger.warning("No se encontró un ingreso más alto para el usuario ID: " + idUsuario + " en el mes: " + mes);
-            }
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error al obtener el ingreso más alto para el usuario ID: " + idUsuario + " en el mes: " + mes, e);
-            JOptionPane.showMessageDialog(this, "Error al obtener el ingreso más alto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
-    private void cargarTotalIngresosDelMes(String mes) {
-        int idUsuario = obtenerIdUsuario();  // Usamos el ID del usuario desde UsuarioSesion
-        logger.info("Cargando el total de ingresos para el usuario ID: " + idUsuario + " en el mes: " + mes);
-        try {
-            double totalIngresos = ingresoDAO.obtenerTotalIngresosDelMes(idUsuario, mes);
-            txtIngresoMes.setText(String.valueOf(totalIngresos));
-            logger.info("Total de ingresos cargado: " + totalIngresos);
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error al obtener el total de ingresos para el usuario ID: " + idUsuario + " en el mes: " + mes, e);
-            JOptionPane.showMessageDialog(this, "Error al obtener el total de ingresos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -152,8 +134,6 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
         Eliminar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtUltimoIngreso = new javax.swing.JLabel();
-        txtIngresoMayor = new javax.swing.JLabel();
-        txtIngresoMes = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         Ingresos = new javax.swing.JButton();
         Retroceder = new javax.swing.JButton();
@@ -218,48 +198,36 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
         txtUltimoIngreso.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         txtUltimoIngreso.setText("jLabel4");
 
-        txtIngresoMayor.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        txtIngresoMayor.setText("jLabel5");
-
-        txtIngresoMes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        txtIngresoMes.setText("jLabel6");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtUltimoIngreso)
-                    .addComponent(jLabel2))
+                .addComponent(jLabel2)
+                .addGap(92, 92, 92)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(Agregar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Eliminar)))
-                        .addGap(138, 138, 138))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(204, 204, 204)
-                        .addComponent(txtIngresoMayor)
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(Agregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtIngresoMes)
-                        .addGap(126, 126, 126))))
+                        .addComponent(Eliminar)))
+                .addGap(138, 138, 138))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(Editar))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Editar)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtUltimoIngreso)
+                                .addGap(157, 157, 157)))))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,10 +240,7 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUltimoIngreso)
-                    .addComponent(txtIngresoMayor)
-                    .addComponent(txtIngresoMes))
+                .addComponent(txtUltimoIngreso)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Editar)
@@ -325,7 +290,8 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)))
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,114 +310,19 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1070, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 23, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1070, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 19, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void IngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngresosActionPerformed
- 
+    cargarIngresosEnTabla();
     }//GEN-LAST:event_IngresosActionPerformed
-
-    private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
-        /**
-         * Maneja el evento de acción para abrir el formulario de registro de
-         * ingresos.
-         *
-         * Este método crea una instancia de {@code RegistrarIngreso} y hace
-         * visible el formulario correspondiente para permitir al usuario
-         * agregar nuevos ingresos.
-         *
-         * @param evt El evento de acción que se produce al activar este método.
-         */
-        // Crear una instancia del formulario secundario
-        RegistrarIngreso EditarIngresos = new RegistrarIngreso();
-
-        // Hacer visible el formulario secundario
-        EditarIngresos.setVisible(true);
-    }//GEN-LAST:event_AgregarActionPerformed
-
-    private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
- /**
-     * Maneja el evento de acción para editar un ingreso seleccionado en la
-     * tabla.
-     *
-     * Este método obtiene la fila seleccionada en la tabla de ingresos,
-     * pide al usuario nuevos valores para el monto y la descripción, y 
-     * actualiza la tabla y la base de datos con los nuevos valores. 
-     * Si no hay una fila seleccionada, muestra un mensaje de advertencia.
-     *
-     * @param evt El evento de acción que se produce al activar este método.
-     */
-    
-    // Obtener la fila seleccionada
-    int selectedRow = tlbIngresos.getSelectedRow();
-    
-    if (selectedRow == -1) {
-        // Si no hay ninguna fila seleccionada, mostrar mensaje de advertencia
-        JOptionPane.showMessageDialog(this, "Por favor, selecciona un ingreso para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
-    // Obtener el ID del ingreso seleccionado
-    int idIngreso = (int) tlbIngresos.getValueAt(selectedRow, 0);  // Suponiendo que el ID de ingreso está en la primera columna
-
-    // Obtener la descripción y la cantidad del ingreso
-    String descripcionActual = (String) tlbIngresos.getValueAt(selectedRow, 3);  // Suponiendo que la descripción está en la cuarta columna
-    double cantidadActual = (double) tlbIngresos.getValueAt(selectedRow, 1);  // Suponiendo que la cantidad está en la segunda columna
-
-    // Mostrar ventana emergente para editar el monto
-    String nuevoMontoStr = JOptionPane.showInputDialog(this, "Ingresa el nuevo monto para el ingreso:", cantidadActual);
-    
-    // Validar que el monto ingresado sea un número
-    double nuevoMonto;
-    try {
-        nuevoMonto = Double.parseDouble(nuevoMontoStr);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "El monto ingresado no es válido. Intenta nuevamente.", "Error de validación", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    // Mostrar ventana emergente para editar la descripción
-    String nuevaDescripcion = JOptionPane.showInputDialog(this, "Ingresa la nueva descripción para el ingreso:", descripcionActual);
-    
-    // Validar que la descripción no esté vacía
-    if (nuevaDescripcion == null || nuevaDescripcion.trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "La descripción no puede estar vacía.", "Error de validación", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    // Confirmar que el usuario desea realizar la edición
-    int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas editar este ingreso?", "Confirmación de edición", JOptionPane.YES_NO_OPTION);
-    
-    if (confirm == JOptionPane.YES_OPTION) {
-        try {
-            // Actualizar el ingreso en la base de datos utilizando el DAO
-            ingresoDAO.actualizarIngreso(idIngreso, nuevoMonto, nuevaDescripcion);
-            
-            // Actualizar la tabla con los nuevos valores
-            tlbIngresos.setValueAt(nuevoMonto, selectedRow, 1);  // Actualiza la cantidad en la tabla
-            tlbIngresos.setValueAt(nuevaDescripcion, selectedRow, 3);  // Actualiza la descripción en la tabla
-            
-            // Mostrar un mensaje de éxito
-            JOptionPane.showMessageDialog(this, "Ingreso actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            logger.info("Ingreso con ID " + idIngreso + " actualizado con éxito.");
-        } catch (SQLException e) {
-            // En caso de error, mostrar mensaje de error
-            JOptionPane.showMessageDialog(this, "Error al actualizar el ingreso: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            logger.log(Level.SEVERE, "Error al actualizar el ingreso con ID " + idIngreso, e);
-        }
-    } 
-    }//GEN-LAST:event_EditarActionPerformed
 
     private void RetrocederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RetrocederActionPerformed
         /**
@@ -472,66 +343,158 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
     }//GEN-LAST:event_RetrocederActionPerformed
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
-    /**
-     * Maneja el evento de acción para eliminar un ingreso de la tabla.
-     *
-     * Este método obtiene la fila seleccionada en la tabla de ingresos,
-     * confirma la eliminación y, si se confirma, elimina el registro
-     * correspondiente de la base de datos y de la tabla visual.
-     *
-     * Si no hay ninguna fila seleccionada, muestra un mensaje de
-     * advertencia. En caso de error durante la eliminación, se muestra un
-     * mensaje de error.
-     *
-     * @param evt El evento de acción que se produce al activar este método.
-     */
-    
-    // Obtener la fila seleccionada de la tabla
-    int selectedRow = tlbIngresos.getSelectedRow();
-    
-    if (selectedRow == -1) {
-        // Si no hay ninguna fila seleccionada, mostrar mensaje de advertencia
-        JOptionPane.showMessageDialog(this, "Por favor, selecciona un ingreso para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
-    // Obtener el ID del ingreso seleccionado
-    int idIngreso = (int) tlbIngresos.getValueAt(selectedRow, 0);  // Suponiendo que el ID de ingreso está en la primera columna
+        /**
+        * Maneja el evento de acción para eliminar un ingreso de la tabla.
+        *
+        * Este método obtiene la fila seleccionada en la tabla de ingresos,
+        * confirma la eliminación y, si se confirma, elimina el registro
+        * correspondiente de la base de datos y de la tabla visual.
+        *
+        * Si no hay ninguna fila seleccionada, muestra un mensaje de
+        * advertencia. En caso de error durante la eliminación, se muestra un
+        * mensaje de error.
+        *
+        * @param evt El evento de acción que se produce al activar este método.
+        */
 
-    // Obtener la fecha del ingreso seleccionado (en la columna correspondiente, por ejemplo, columna 2)
-    LocalDate fechaIngreso = ((java.sql.Date) tlbIngresos.getValueAt(selectedRow, 2)).toLocalDate(); // Convertimos de java.sql.Date a LocalDate
-    
-    // Obtener la fecha actual
-    LocalDate fechaActual = LocalDate.now();
-    
-    // Verificar si la fecha del ingreso es la misma que la fecha actual
-    if (!fechaIngreso.isEqual(fechaActual)) {
-        JOptionPane.showMessageDialog(this, "Solo se pueden eliminar ingresos del día de hoy.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    // Confirmar la eliminación
-    int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este ingreso?", "Confirmación de eliminación", JOptionPane.YES_NO_OPTION);
-    
-    if (confirm == JOptionPane.YES_OPTION) {
-        try {
-            // Eliminar el ingreso de la base de datos utilizando el DAO
-            ingresoDAO.eliminarIngreso(idIngreso);
-            
-            // Eliminar la fila de la tabla
-            DefaultTableModel modelo = (DefaultTableModel) tlbIngresos.getModel();
-            modelo.removeRow(selectedRow);
-            
-            // Mostrar un mensaje de éxito
-            JOptionPane.showMessageDialog(this, "Ingreso eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            logger.info("Ingreso con ID " + idIngreso + " eliminado con éxito.");
-        } catch (SQLException e) {
-            // En caso de error, mostrar mensaje de error
-            JOptionPane.showMessageDialog(this, "Error al eliminar el ingreso: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            logger.log(Level.SEVERE, "Error al eliminar el ingreso con ID " + idIngreso, e);
+        // Obtener la fila seleccionada de la tabla
+        int selectedRow = tlbIngresos.getSelectedRow();
+
+        if (selectedRow == -1) {
+            // Si no hay ninguna fila seleccionada, mostrar mensaje de advertencia
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un ingreso para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
         }
-    }
+
+        // Obtener el ID del ingreso seleccionado
+        int idIngreso = (int) tlbIngresos.getValueAt(selectedRow, 0);  // Suponiendo que el ID de ingreso está en la primera columna
+
+        // Obtener la fecha del ingreso seleccionado (en la columna correspondiente, por ejemplo, columna 2)
+        LocalDate fechaIngreso = ((java.sql.Date) tlbIngresos.getValueAt(selectedRow, 2)).toLocalDate(); // Convertimos de java.sql.Date a LocalDate
+
+        // Obtener la fecha actual
+        LocalDate fechaActual = LocalDate.now();
+
+        // Verificar si la fecha del ingreso es la misma que la fecha actual
+        if (!fechaIngreso.isEqual(fechaActual)) {
+            JOptionPane.showMessageDialog(this, "Solo se pueden eliminar ingresos del día de hoy.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Confirmar la eliminación
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este ingreso?", "Confirmación de eliminación", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                // Eliminar el ingreso de la base de datos utilizando el DAO
+                ingresoDAO.eliminarIngreso(idIngreso);
+
+                // Eliminar la fila de la tabla
+                DefaultTableModel modelo = (DefaultTableModel) tlbIngresos.getModel();
+                modelo.removeRow(selectedRow);
+
+                // Mostrar un mensaje de éxito
+                JOptionPane.showMessageDialog(this, "Ingreso eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                logger.info("Ingreso con ID " + idIngreso + " eliminado con éxito.");
+            } catch (SQLException e) {
+                // En caso de error, mostrar mensaje de error
+                JOptionPane.showMessageDialog(this, "Error al eliminar el ingreso: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                logger.log(Level.SEVERE, "Error al eliminar el ingreso con ID " + idIngreso, e);
+            }
+        }
     }//GEN-LAST:event_EliminarActionPerformed
+
+    private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
+        /**
+        * Maneja el evento de acción para editar un ingreso seleccionado en la
+        * tabla.
+        *
+        * Este método obtiene la fila seleccionada en la tabla de ingresos,
+        * pide al usuario nuevos valores para el monto y la descripción, y
+        * actualiza la tabla y la base de datos con los nuevos valores.
+        * Si no hay una fila seleccionada, muestra un mensaje de advertencia.
+        *
+        * @param evt El evento de acción que se produce al activar este método.
+        */
+
+        // Obtener la fila seleccionada
+        int selectedRow = tlbIngresos.getSelectedRow();
+
+        if (selectedRow == -1) {
+            // Si no hay ninguna fila seleccionada, mostrar mensaje de advertencia
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un ingreso para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Obtener el ID del ingreso seleccionado
+        int idIngreso = (int) tlbIngresos.getValueAt(selectedRow, 0);  // Suponiendo que el ID de ingreso está en la primera columna
+
+        // Obtener la descripción y la cantidad del ingreso
+        String descripcionActual = (String) tlbIngresos.getValueAt(selectedRow, 3);  // Suponiendo que la descripción está en la cuarta columna
+        double cantidadActual = (double) tlbIngresos.getValueAt(selectedRow, 1);  // Suponiendo que la cantidad está en la segunda columna
+
+        // Mostrar ventana emergente para editar el monto
+        String nuevoMontoStr = JOptionPane.showInputDialog(this, "Ingresa el nuevo monto para el ingreso:", cantidadActual);
+
+        // Validar que el monto ingresado sea un número
+        double nuevoMonto;
+        try {
+            nuevoMonto = Double.parseDouble(nuevoMontoStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El monto ingresado no es válido. Intenta nuevamente.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Mostrar ventana emergente para editar la descripción
+        String nuevaDescripcion = JOptionPane.showInputDialog(this, "Ingresa la nueva descripción para el ingreso:", descripcionActual);
+
+        // Validar que la descripción no esté vacía
+        if (nuevaDescripcion == null || nuevaDescripcion.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La descripción no puede estar vacía.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Confirmar que el usuario desea realizar la edición
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas editar este ingreso?", "Confirmación de edición", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                // Actualizar el ingreso en la base de datos utilizando el DAO
+                ingresoDAO.actualizarIngreso(idIngreso, nuevoMonto, nuevaDescripcion);
+
+                // Actualizar la tabla con los nuevos valores
+                tlbIngresos.setValueAt(nuevoMonto, selectedRow, 1);  // Actualiza la cantidad en la tabla
+                tlbIngresos.setValueAt(nuevaDescripcion, selectedRow, 3);  // Actualiza la descripción en la tabla
+
+                // Mostrar un mensaje de éxito
+                JOptionPane.showMessageDialog(this, "Ingreso actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                logger.info("Ingreso con ID " + idIngreso + " actualizado con éxito.");
+            } catch (SQLException e) {
+                // En caso de error, mostrar mensaje de error
+                JOptionPane.showMessageDialog(this, "Error al actualizar el ingreso: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                logger.log(Level.SEVERE, "Error al actualizar el ingreso con ID " + idIngreso, e);
+            }
+        }
+    }//GEN-LAST:event_EditarActionPerformed
+
+    private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
+        /**
+        * Maneja el evento de acción para abrir el formulario de registro de
+        * ingresos.
+        *
+        * Este método crea una instancia de {@code RegistrarIngreso} y hace
+        * visible el formulario correspondiente para permitir al usuario
+        * agregar nuevos ingresos.
+        *
+        * @param evt El evento de acción que se produce al activar este método.
+        */
+        // Crear una instancia del formulario secundario
+        RegistrarIngreso EditarIngresos = new RegistrarIngreso();
+
+        // Hacer visible el formulario secundario
+        EditarIngresos.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_AgregarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -588,8 +551,6 @@ public class MenuRegistrarIngresos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tlbIngresos;
-    private javax.swing.JLabel txtIngresoMayor;
-    private javax.swing.JLabel txtIngresoMes;
     private javax.swing.JLabel txtUltimoIngreso;
     // End of variables declaration//GEN-END:variables
 }

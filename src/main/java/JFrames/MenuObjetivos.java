@@ -120,6 +120,11 @@ private void cargarObjetivos() {
         btnReportePresupuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnReportePresupuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/informe.png"))); // NOI18N
         btnReportePresupuesto.setText("Reporte");
+        btnReportePresupuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportePresupuestoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -447,6 +452,12 @@ Presupuesto.setVisible(true);
         JOptionPane.showMessageDialog(this, "Por favor, selecciona un objetivo para editar.", "Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_btnEditarPresupuestoActionPerformed
+
+    private void btnReportePresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportePresupuestoActionPerformed
+    MenuReportes Reportes = new MenuReportes();
+    Reportes.setVisible(true);// TODO add your handling code here:
+    this.dispose();
+    }//GEN-LAST:event_btnReportePresupuestoActionPerformed
 
     /**
      * @param args the command line arguments
