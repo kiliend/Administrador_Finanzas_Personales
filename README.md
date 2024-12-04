@@ -14,12 +14,7 @@
 
 ![image](https://github.com/user-attachments/assets/13ee6601-15db-49aa-839e-b194275d7825)
 
-<p>El 40% de los casos de uso serian: </p>
 
-- Caso de Uso: Registrar Ingreso
-- Caso de Uso: Registro e Inicio de Sesión
-- Caso de Uso: Editar Gasto (Frontend)
-- Caso de Uso: Establecer Presupuesto y Recibir Alerta (Frontend)
 
 # Administrador de Finanzas Personales
 
