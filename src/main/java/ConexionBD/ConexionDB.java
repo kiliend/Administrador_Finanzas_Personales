@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ConexionBD;
 
 import java.sql.Connection;
@@ -74,5 +70,5 @@ public class ConexionDB {
                 System.out.println("Error al cerrar la conexión: " + e.getMessage());
             }
         }
-    }}
-
+    }
+}

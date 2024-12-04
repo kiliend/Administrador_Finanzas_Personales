@@ -1,8 +1,12 @@
 package JFrames;
 
-import RegistrarIngreso.GestorFinanzas;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+import ClaseDAOImpl.IngresoDAOImpl;
+import Clases.Ingreso;
+import Clases.UsuarioSesion;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * La clase {@code RegistrarIngreso} representa el formulario para registrar un
@@ -16,7 +20,7 @@ import java.time.format.DateTimeParseException;
  * @author Rodney Piers Salazar Arapa
  */
 public class RegistrarIngreso extends javax.swing.JFrame {
-
+private static final Logger logger = Logger.getLogger(RegistrarIngreso.class.getName());
     /**
      * Constructor de la clase {@code RegistrarIngreso}. Inicializa los
      * componentes gráficos de la interfaz de registro de ingresos.
@@ -37,10 +41,10 @@ public class RegistrarIngreso extends javax.swing.JFrame {
         categoria = new javax.swing.JLabel();
         txtCategoria = new javax.swing.JTextField();
         fecha = new javax.swing.JLabel();
-        txtFecha = new javax.swing.JTextField();
         RegistarIngresos = new javax.swing.JButton();
         VolverMenu = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jDateChooser1Fecha = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,21 +126,20 @@ public class RegistrarIngreso extends javax.swing.JFrame {
                         .addGap(89, 89, 89)
                         .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(124, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(categoria)
-                        .addGap(48, 48, 48)
-                        .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtFecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(66, 66, 66))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(147, 147, 147)
                 .addComponent(RegistarIngresos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(VolverMenu)
                 .addGap(102, 102, 102))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(124, Short.MAX_VALUE)
+                .addComponent(categoria)
+                .addGap(48, 48, 48)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jDateChooser1Fecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+                .addGap(66, 66, 66))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,10 +160,10 @@ public class RegistrarIngreso extends javax.swing.JFrame {
                     .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(categoria))
                 .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(fecha)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                    .addComponent(jDateChooser1Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RegistarIngresos)
                     .addComponent(VolverMenu))
@@ -185,61 +188,48 @@ public class RegistrarIngreso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void RegistarIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistarIngresosActionPerformed
-        /**
-         * Acción ejecutada cuando se presiona el botón para registrar ingresos.
-         *
-         * Este método realiza las siguientes acciones:
-         * <ul>
-         * <li>Obtiene los valores de los campos de texto de la interfaz.</li>
-         * <li>Valida que los campos no estén vacíos.</li>
-         * <li>Convierte los valores ingresados a los tipos de datos
-         * correspondientes (monto y fecha).</li>
-         * <li>Registra el ingreso en la base de datos usando
-         * {@code GestorFinanzas}.</li>
-         * <li>Exporta los ingresos a un archivo Excel.</li>
-         * <li>Muestra un mensaje de éxito al usuario.</li>
-         * </ul>
-         *
-         * @param evt el evento de acción generado por el usuario al hacer clic
-         * en el botón
-         * @throws NumberFormatException si el formato del monto es incorrecto
-         * @throws DateTimeParseException si el formato de la fecha es
-         * incorrecto
-         */
-        // 1. Obtener los valores de los campos de texto
-        String montoStr = txtMonto.getText();
-        String categoria = txtCategoria.getText();
-        String fechaStr = txtFecha.getText();
-
-        // 2. Validar que los campos no estén vacíos
-        if (montoStr.isEmpty() || categoria.isEmpty() || fechaStr.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
-            return;
-        }
-
-        // 3. Convertir el texto a los tipos de datos correspondientes
-        double monto;
-        LocalDate fecha;
         try {
-            monto = Double.parseDouble(montoStr);
-            fecha = LocalDate.parse(fechaStr);
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "El formato de monto es incorrecto.");
-            return;
-        } catch (DateTimeParseException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "El formato de fecha es incorrecto. Usa YYYY-MM-DD.");
+        // Obtener los datos del formulario
+        double monto = Double.parseDouble(txtMonto.getText());
+        String categoria = txtCategoria.getText();
+        java.util.Date fecha = jDateChooser1Fecha.getDate();
+        
+        // Verificar si los campos no están vacíos
+        if (txtMonto.getText().isEmpty() || categoria.isEmpty() || fecha == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+            logger.warning("Intento de registro fallido: Campos vacíos.");
             return;
         }
-
-        // 4. Registrar el ingreso en la base de datos
-        GestorFinanzas gestor = new GestorFinanzas();
-        gestor.registrarIngreso(monto, categoria, fecha);
-
-        // 5. Exportar ingresos a Excel
-        gestor.exportarIngresos(); // Llamar a la exportación
-
-        // 6. Mostrar un mensaje de éxito
-        javax.swing.JOptionPane.showMessageDialog(this, "Ingreso registrado con éxito, exportado a Excel y exportado a una copia de seguridad.");
+        
+        // Crear el objeto Ingreso
+        Ingreso ingreso = new Ingreso();
+        ingreso.setCantidad(monto);
+        ingreso.setDescripcion(categoria); // Usamos la categoría como descripción
+        ingreso.setFecha(new java.sql.Date(fecha.getTime())); // Convertimos la fecha a java.sql.Date
+        
+        // Registrar el ingreso
+        IngresoDAOImpl ingresoDAO = new IngresoDAOImpl();
+        ingresoDAO.agregarIngreso(ingreso);
+        
+        // Mostrar mensaje de éxito
+        JOptionPane.showMessageDialog(this, "Ingreso registrado exitosamente.");
+        logger.info("Ingreso registrado exitosamente: " + ingreso.toString());
+        
+        // Limpiar los campos después de registrar el ingreso
+        txtMonto.setText("");
+        txtCategoria.setText("");
+        jDateChooser1Fecha.setDate(null);
+        
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El monto ingresado no es válido.");
+        logger.severe("Error de formato en el monto: " + e.getMessage());
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al registrar el ingreso: " + e.getMessage());
+        logger.severe("Error al registrar el ingreso en la base de datos: " + e.getMessage());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Ha ocurrido un error inesperado.");
+        logger.severe("Error inesperado: " + e.getMessage());
+    }
     }//GEN-LAST:event_RegistarIngresosActionPerformed
 
     private void VolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverMenuActionPerformed
@@ -261,6 +251,7 @@ public class RegistrarIngreso extends javax.swing.JFrame {
 
         // Hacer visible el formulario secundario
         VolverMenu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_VolverMenuActionPerformed
 
     private void txtMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoActionPerformed
@@ -310,13 +301,13 @@ public class RegistrarIngreso extends javax.swing.JFrame {
     private javax.swing.JButton VolverMenu;
     private javax.swing.JLabel categoria;
     private javax.swing.JLabel fecha;
+    private com.toedter.calendar.JDateChooser jDateChooser1Fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel monto;
     private javax.swing.JTextField txtCategoria;
-    private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtMonto;
     // End of variables declaration//GEN-END:variables
 }

@@ -33,6 +33,7 @@ JFrames\MenuObjetivos$2.class
 JFrames\Registro_Objetivo.class
 JFrames\Menu$1.class
 JFrames\EstablecerPresupuesto$1.class
+ClaseDAOImpl\IngresoDAOImpl.class
 JFrames\MenuUsuario$1.class
 RegistrarCuenta\CuentaBancaria.class
 JFrames\RegistrarGastos$3.class
@@ -91,6 +92,7 @@ JFrames\MenuObjetivos$6.class
 JFrames\Menu$3.class
 JFrames\FormLogin.class
 Clases\Gasto.class
+ClaseDAO\IngresoDAOInterface.class
 JFrames\RegistrarIngreso$2.class
 JFrames\MenuGastos$4.class
 ConexionBD\ConexionDB.class

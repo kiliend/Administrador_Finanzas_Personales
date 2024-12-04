@@ -8,7 +8,6 @@ import ClaseDAOImpl.ObjetivoDAOImpl;
 import Clases.Objetivo;
 import Clases.UsuarioSesion;
 import ConexionBD.ConexionDB;
-import static com.mysql.cj.conf.PropertyKey.logger;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
