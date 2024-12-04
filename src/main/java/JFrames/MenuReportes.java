@@ -6,6 +6,10 @@ package JFrames;
 
 import javax.swing.*;
 import Clases.ReporteService;
+import Clases.UsuarioSesion;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 
 /**
  *
@@ -17,6 +21,9 @@ public class MenuReportes extends javax.swing.JFrame {
     private String tiempoSeleccionado;
     private String tipoArchivoSeleccionado;
     private final ReporteService reporteService;
+        // Logger de Java
+    private static final Logger logger = Logger.getLogger(MenuReportes.class.getName());
+
 
     /**
      * Creates new form MenuReportes
@@ -416,36 +423,57 @@ public class MenuReportes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCVSActionPerformed
 
     private void btnDescargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarActionPerformed
-  // Validar si los parámetros seleccionados son correctos
+       // Validar si los parámetros seleccionados son correctos
     if (categoriaSeleccionada == null || categoriaSeleccionada.trim().isEmpty() ||
         tiempoSeleccionado == null || tiempoSeleccionado.trim().isEmpty() ||
         tipoArchivoSeleccionado == null || tipoArchivoSeleccionado.trim().isEmpty()) {
+        
+        logger.severe("Parámetros incorrectos. Categoria: " + categoriaSeleccionada + 
+                       ", Tiempo: " + tiempoSeleccionado + ", Tipo de archivo: " + tipoArchivoSeleccionado);
         JOptionPane.showMessageDialog(this, "Seleccione categoría, tiempo y tipo de archivo para el reporte.");
         return;
     }
 
     // Deshabilitar el botón para evitar clics múltiples durante la generación
     btnDescargar.setEnabled(false);
+    logger.info("Deshabilitando el botón de descarga mientras se genera el reporte.");
+
+    // Obtener la información del usuario desde la sesión
+    int userId = UsuarioSesion.getUserId();  // Obtenemos el ID del usuario
+    String usuarioNombre = UsuarioSesion.getNombre();  // (opcional) Nombre del usuario
+    logger.info("Generando reporte para el usuario ID: " + userId + ", Nombre: " + usuarioNombre);
 
     try {
-        // Generar el reporte según el tipo de archivo seleccionado
+        // Log de inicio de la generación de reporte
+        logger.info("Iniciando la generación del reporte. Categoría: " + categoriaSeleccionada + 
+                    ", Tiempo: " + tiempoSeleccionado + ", Tipo de archivo: " + tipoArchivoSeleccionado);
+
+        // Generación del reporte
         switch (tipoArchivoSeleccionado) {
             case "PDF":
-                reporteService.generarPDF(categoriaSeleccionada, tiempoSeleccionado);
+                logger.info("Generando reporte en formato PDF...");
+                reporteService.generarPDF(categoriaSeleccionada, tiempoSeleccionado, userId);  // Pasamos el userId
                 break;
             case "CSV":
-                reporteService.generarCSV(categoriaSeleccionada, tiempoSeleccionado);
+                logger.info("Generando reporte en formato CSV...");
+                reporteService.generarCSV(categoriaSeleccionada, tiempoSeleccionado, userId);  // Pasamos el userId
                 break;
             default:
+                logger.severe("Tipo de archivo no soportado: " + tipoArchivoSeleccionado);
                 throw new IllegalArgumentException("Tipo de archivo no soportado: " + tipoArchivoSeleccionado);
         }
+
+        // Reporte generado exitosamente
+        logger.info("Reporte generado correctamente en formato: " + tipoArchivoSeleccionado);
         JOptionPane.showMessageDialog(this, "Reporte generado correctamente en formato " + tipoArchivoSeleccionado);
     } catch (Exception e) {
-        e.printStackTrace();  // Esto es útil para depuración
+        // Manejo de excepción
+        logger.log(Level.SEVERE, "Error al generar el reporte: ", e);
         JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
     } finally {
-        // Habilitar el botón de nuevo
+        // Habilitar el botón nuevamente
         btnDescargar.setEnabled(true);
+        logger.info("Rehabilitando el botón de descarga.");
     }
     }//GEN-LAST:event_btnDescargarActionPerformed
 

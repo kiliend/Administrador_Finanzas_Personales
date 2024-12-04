@@ -3,6 +3,8 @@ package JFrames;
 import Clases.UsuarioSesion;
 import RegistrarCuenta.CuentaBancaria;
 import RegistrarCuenta.RegistroCuentaBancaria;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,6 +13,7 @@ import javax.swing.JOptionPane;
  */
 public class RegistrarCuentaBancaria extends javax.swing.JFrame {
 
+        private static final Logger LOGGER = Logger.getLogger(RegistrarCuentaBancaria.class.getName());
     /**
      * Creates new form RegistrarCuentaBancaria
      */
@@ -191,51 +194,59 @@ public class RegistrarCuentaBancaria extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
-
-        // Validar que los campos no estén vacíos
-        if (txtTitular.getText().isEmpty()
-                || txtDni.getText().isEmpty()
-                || txtNumeroTarjeta.getText().isEmpty()
-                || comboBoxBancos.getSelectedItem() == null
-                || jDateChooserFechaVencimiento.getDate() == null) {
-
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
-            return;
-        }
-
-        // Validar formato del DNI (8 dígitos)
-        String dni = txtDni.getText();
-        if (!dni.matches("\\d{8}")) {
-            JOptionPane.showMessageDialog(this, "El DNI debe tener 8 dígitos.");
-            return;
-        }
-
-        // Validar formato del número de tarjeta (16 dígitos)
-        String numeroTarjeta = txtNumeroTarjeta.getText();
-        if (!numeroTarjeta.matches("\\d{16}")) {
-            JOptionPane.showMessageDialog(this, "El número de tarjeta debe tener 16 dígitos.");
-            return;
-        }
-
-        // Obtener los valores del formulario
+  try {
+        // Obtener los datos del formulario
+        String bancoSeleccionado = (String) comboBoxBancos.getSelectedItem();
         String titular = txtTitular.getText();
-        String banco = comboBoxBancos.getSelectedItem().toString();
+        String dni = txtDni.getText();
+        String numeroTarjeta = txtNumeroTarjeta.getText();
         java.util.Date fechaVencimiento = jDateChooserFechaVencimiento.getDate();
 
-        // Crear un objeto CuentaBancaria
-        CuentaBancaria cuenta = new CuentaBancaria(titular, dni, numeroTarjeta, banco, fechaVencimiento);
-
-        // Registrar la cuenta en la base de datos
-        RegistroCuentaBancaria registro = new RegistroCuentaBancaria();
-        boolean registroExitoso = registro.registrarCuenta(cuenta);
-
-        // Mostrar mensaje de éxito o error
-        if (registroExitoso) {
-            JOptionPane.showMessageDialog(this, "Cuenta bancaria registrada correctamente.");
-            limpiarFormulario();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al registrar la cuenta bancaria.");
+        // Validaciones básicas
+        if (titular.isEmpty() || dni.isEmpty() || numeroTarjeta.isEmpty() || fechaVencimiento == null) {
+            LOGGER.warning("Campos vacíos detectados. Por favor, complete toda la información.");
+            javax.swing.JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        // Registrar la cuenta
+        LOGGER.info("Datos ingresados:");
+        LOGGER.info("Banco: " + bancoSeleccionado);
+        LOGGER.info("Titular: " + titular);
+        LOGGER.info("DNI: " + dni);
+        LOGGER.info("Número de tarjeta: " + numeroTarjeta);
+        LOGGER.info("Fecha de vencimiento: " + fechaVencimiento);
+
+        // Crear el objeto CuentaBancaria
+        CuentaBancaria cuenta = new CuentaBancaria();
+        cuenta.setTitular(titular);
+        cuenta.setDni(dni);  // Este campo lo estamos enviando directamente (aunque no se necesita si lo obtenemos de la base)
+        cuenta.setNumeroTarjeta(numeroTarjeta);
+        cuenta.setBanco(bancoSeleccionado);
+        cuenta.setFechaVencimiento(fechaVencimiento);
+        
+        // Generar el código de seguridad (primeros 3 dígitos del número de cuenta)
+        String codigoSeguridad = numeroTarjeta.substring(0, 3);  // Tomamos los 3 primeros dígitos del número de tarjeta
+        cuenta.setCodigoSeguridad(codigoSeguridad);
+
+        // Obtener el ID de usuario desde la sesión
+        int userId = UsuarioSesion.getUserId();  // Obtén el userId de la sesión activa
+
+        // Registrar la cuenta bancaria
+        LOGGER.info("Intentando registrar la cuenta bancaria...");
+        RegistroCuentaBancaria registro = new RegistroCuentaBancaria();
+        if (registro.registrarCuenta(cuenta, userId)) {
+            LOGGER.info("Registro completado con éxito.");
+            javax.swing.JOptionPane.showMessageDialog(this, "Cuenta bancaria registrada correctamente.", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            LOGGER.warning("No se pudo registrar la cuenta.");
+            javax.swing.JOptionPane.showMessageDialog(this, "No se pudo registrar la cuenta.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+
+    } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, "Error al registrar la cuenta bancaria.", e);
+        javax.swing.JOptionPane.showMessageDialog(this, "Error al registrar la cuenta bancaria: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_AgregarActionPerformed
 
     private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed
